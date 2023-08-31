@@ -1,0 +1,44 @@
+RATIOS
+
+Current Ratio = Current Assets / Current Liabil­ities
+
+ratio of current assets and current liabil­ities. It measures the liquidity stand of a firm
+Ideal ratio is 2:1 or more. A low CR, say 0.5:1, means company has Rs.50 for every Rs.100 of debt and can't cover it short-term debts
+
+Quick Ratio = Quick Assets / Current Liabil­ities
+
+also know as Acid Test Ratio
+Quick Ratio = (Current Assets - Invent­ories) / Current Liabil­ities
+a measure of short-term solvency of a firm
+Reliable because assets forming part of quick assets are easily conver­tible into cash in short notice. Quick ratio of 1:1 represents satisf­actory financial situation
+
+Debt Equity Ratio
+
+D/E Ratio = Total Debt / Total Common Equity
+ratio of firm's total liabil­ities to Equity Capital
+High D/E Ratio indicates higher risk to the shareh­olders
+
+Earnings per share (EPS) 
+is calculated as a company's profit divided by the outstanding shares of its common stock
+
+What Is the Price-to-Book (P/B) Ratio?
+
+Many investors use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value and locate undervalued companies. This ratio is calculated by dividing the company's current stock price per share by its book value per share (BVPS)
+
+Return on Assets
+
+RoA = Net Income / Total Assets
+
+Return on Equity
+
+RoE = Net Income / Total Equity
+
+Return on capital 
+measures a company's net income relative to the sum of its debt and equity value.
+
+Assets Turnover Ratio
+
+TATOR = Sales / Total Assets
+
+measure of a firm's ability to make effective utiliz­ation of its total investment of generating sales revenue. High TATOR indicates efficient utiliz­ation of total assets in sales generation
+Assets Management Ratios measure the effect­iveness of a firm's asset utiliz­ation. Also Called Turnover Ratios or Efficiency or Perfor­mance Ratios because they indicate the speed with which assets are being converted into sales

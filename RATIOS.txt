@@ -23,7 +23,8 @@ is calculated as a company's profit divided by the outstanding shares of its com
 
 What Is the Price-to-Book (P/B) Ratio?
 
-Many investors use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value and locate undervalued companies. This ratio is calculated by dividing the company's current stock price per share by its book value per share (BVPS)
+Many investors use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value and locate undervalued companies. 
+This ratio is calculated by dividing the company's current stock price per share by its book value per share (BVPS)
 
 Return on Assets
 

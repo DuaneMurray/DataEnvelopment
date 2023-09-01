@@ -3,6 +3,12 @@ import yfinance as yf
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
+
+dhr = yf.Ticker('DHR')
+info = dhr.info
+info.keys()
+
+'''
 # symbols = [stock, market]
 # start date for historical prices
 symbols = ['AXP', 'SPY']
@@ -21,3 +27,4 @@ y = np.array(df['SPY'])
 model = LinearRegression().fit(x, y)
 
 print('Beta = ', model.coef_) # SLOPE = BETA
+'''

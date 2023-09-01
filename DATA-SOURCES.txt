@@ -1,0 +1,63 @@
+Stock Data Sources:
+
+Google finance:
+https://support.google.com/docs/answer/3093281?hl=en
+
+-----------------------------------------------------------
+Yahoo Fiance (yfinance python API):
+https://analyzingalpha.com/yfinance-python
+
+2,000 calls / hour || 33 calls / minute
+8,000 call / day
+
+-----------------------------------------------------------
+Finnhub.io
+
+30 API calls/second
+
+API Key: cjoelm1r01qlfp4ficg0cjoelm1r01qlfp4ficgg
+API Doc: https://finnhub.io/docs/api
+
+Python: https://github.com/Finnhub-Stock-API/finnhub-python
+PHP: https://packagist.org/packages/finnhub/client
+
+Prepack Data:
+Financials: https://www.kaggle.com/datasets/finnhub/reported-financials
+Metadata: https://www.kaggle.com/datasets/finnhub/sec-filings
+SP500: https://www.kaggle.com/datasets/finnhub/sp-500-futures-tick-data-sp
+
+-----------------------------------------------------------
+Polygon.io
+
+Free level: (used GIThub Authorization)
+5 API calls/minute
+End of day data
+2 years historical
+
+$29/mo: (starter)
+Unlimited API Calls
+5 Yrs data
+Websocket
+
+API Key: v54bMgbkdqD03F4gE3_JaTtVZMeQCFgg
+API Doc: https://polygon.io/docs/stocks/getting-started
+
+Python: https://github.com/polygon-io/client-python
+PHP: https://github.com/polygon-io/client-php
+JavaScript: https://github.com/polygon-io/client-js
+
+-----------------------------------------------------------
+AlphaVantage.co
+
+Free Level:
+5 API requests per minute/100 requests per day
+30 API requests per minute $24.99 / mo : no daily limits, all premium features
+
+API Key: YIHDPWVBYMIY4BCX
+API Doc: https://www.alphavantage.co/documentation/
+
+-----------------------------------------------------------
+
+
+
+

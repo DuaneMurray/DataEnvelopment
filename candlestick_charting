@@ -1,0 +1,14 @@
+# IMPORT REQUIRED LIBRARIES
+# YOU SHOULD MAKE SURE THAT YOU ALREADY INSTLALED THEM PREVIOUSLY
+import yfinance as yf
+import finplot as fplt
+
+# CREATE A TICKER INSTANCE FOR TESLA
+tsla = yf.Ticker('TSLA')
+
+# RETRIEVE 1 YEAR WORTH OF DAILY DATA OF TESLA
+df = tsla.history(interval='1d',period='1y')
+
+# PLOT THE OHLC CANDLE CHART
+fplt.candlestick_ochl(df[['Open','Close','High','Low']])
+fplt.show()

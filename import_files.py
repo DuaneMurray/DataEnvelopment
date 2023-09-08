@@ -7,18 +7,25 @@
 #########################################################################################
 
 import os
-import db_config as cfg
 import mysql.connector
 import shutil
 from sqlalchemy import create_engine
 import pandas as pd
 from glob import glob
 
+#import db_config as cfg
+
+# USER, PW, AND DB ARE BEING IMPORTED FROM dbconfig.py FILE
+#db_data = ("mysql+mysqlconnector://{user}:{pw}@localhost/{db}"
+#           .format(user = cfg.mysql["user"],
+#                   pw = cfg.mysql["passwd"],
+#                   db = cfg.mysql["db"]))
+
 # USER, PW, AND DB ARE BEING IMPORTED FROM dbconfig.py FILE
 db_data = ("mysql+mysqlconnector://{user}:{pw}@localhost/{db}"
-           .format(user = cfg.mysql["user"],
-                   pw = cfg.mysql["passwd"],
-                   db = cfg.mysql["db"]))
+           .format(user = "vsc",
+                   pw = "blaster123",
+                   db = "stockdata"))          
 
 # USING 'CREATE_ENGINE' FROM SQLALCHEMY TO MAKE THE DB CONNECTION
 engine = create_engine(db_data).connect()

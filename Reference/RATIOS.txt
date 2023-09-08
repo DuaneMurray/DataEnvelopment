@@ -1,45 +1,91 @@
-RATIOS
+########################
+### FINANCIAL RATIOS ###
+########################
 
-Current Ratio = Current Assets / Current Liabil­ities
+EBIT = "Earnings Before Interest and Taxes" = Operating Income
+Shareholders Equity = Book Value = (Total Assets - Total Liabil­ities)
+Market Capitaliztion = Outstanding Share x Stock Price
+CFO = Cash From Operating Activities
 
-ratio of current assets and current liabil­ities. It measures the liquidity stand of a firm
-Ideal ratio is 2:1 or more. A low CR, say 0.5:1, means company has Rs.50 for every Rs.100 of debt and can't cover it short-term debts
+### LIQUIDITY RATIOS
 
-Quick Ratio = Quick Assets / Current Liabil­ities
+    Enterprise Value (EV) = Market Capitaliztion + (longTermDebt + shortTermDebt) – cashAndEquivalents
 
-also know as Acid Test Ratio
-Quick Ratio = (Current Assets - Invent­ories) / Current Liabil­ities
-a measure of short-term solvency of a firm
-Reliable because assets forming part of quick assets are easily conver­tible into cash in short notice. Quick ratio of 1:1 represents satisf­actory financial situation
+    Current Ratio = Current Assets / Current Liabil­ities
 
-Debt Equity Ratio
+        ratio of current assets and current liabil­ities. It measures the liquidity stand of a firm
+        Ideal ratio is 2:1 or more. A low CR, say 0.5:1, means company has Rs.50 for every Rs.100 of debt and can't cover it short-term debts
 
-D/E Ratio = Total Debt / Total Common Equity
-ratio of firm's total liabil­ities to Equity Capital
-High D/E Ratio indicates higher risk to the shareh­olders
 
-Earnings per share (EPS) 
-is calculated as a company's profit divided by the outstanding shares of its common stock
+    Quick Ratio = (Cash + Investments + Receivables) / Current Liabil­ities
+        also know as Acid Test Ratio, a measure of short-term solvency of a firm
+        Reliable because assets forming part of quick assets are easily conver­tible into cash in short notice. 
+        Quick ratio of 1:1 represents satisf­actory financial situation
 
-What Is the Price-to-Book (P/B) Ratio?
+    Working Capitol = Current Assets - Current Liabil­ities
 
-Many investors use the price-to-book ratio (P/B ratio) to compare a firm's market capitalization to its book value and locate undervalued companies. 
-This ratio is calculated by dividing the company's current stock price per share by its book value per share (BVPS)
+    Market Value of Company = Number of Outstanding Shares * Share Price
 
-Return on Assets
+    Book Value of a Company = Total Assets - Total Liabilities
 
-RoA = Net Income / Total Assets
 
-Return on Equity
+### PROFITABILITY RATIOS
 
-RoE = Net Income / Total Equity
+Return on Equity (ROE):     Net Income / (Total Assets - Total Liabil­ities)
+Return on Assets (ROA):     Net Income + Interest Expense * (1-tax rate) / Total Assets
+Return on Capitol (ROC):    EBIT / Invested Capital
+Operating Margin:           EBIT / Net Sales
+Net Profit Margin:          Net Income / Net Sales
+Earnings per Share (EPS):   Net Income / Number of Outstanding shares
 
-Return on capital 
-measures a company's net income relative to the sum of its debt and equity value.
+Price Earnings Ratio (P-E): Price of Stock / EPS
+Market to Book:             (Number of Outstanding Shares * Price of Stock) / (Total Assets - Total Liabilities)
 
-Assets Turnover Ratio
+Trailing 12M Returns (TTM): [(Current Value – Initial Value) / Initial Value]
 
-TATOR = Sales / Total Assets
 
-measure of a firm's ability to make effective utiliz­ation of its total investment of generating sales revenue. High TATOR indicates efficient utiliz­ation of total assets in sales generation
-Assets Management Ratios measure the effect­iveness of a firm's asset utiliz­ation. Also Called Turnover Ratios or Efficiency or Perfor­mance Ratios because they indicate the speed with which assets are being converted into sales
+### SOLVENCY RATIOS
+
+Debt to Assets:                 (longTermDebt + shortTermDebt)  / Total Assets
+Debt to Equity:                 (longTermDebt + shortTermDebt) / (Total Assets - Total Liabil­ities)
+Book Value per Share (BVPS):    (Total Assets - Total Liabil­ities) / Outstanding shares
+Price to Book (P/B):            Stock Price / BVPS
+
+
+############################
+### TECHNICAL INDICATORS ###
+############################
+
+Beta = Linear Regression SLOPE (Volitility)
+Sigma = Standard Deviation of Stock Price over a given Timeframe (Range of Volitility)
+
+
+#####################
+### FIELDS NEEDED ###
+#####################
+
+Net Income                              `Net Income`
+Total Assets                            `Total Assets`
+Total Liabilities                       `Total Liabilities Net Minority Interest`
+Current Assets                          `Current Assets`
+Current Liabilities                     `Current Liabilities`
+Interest Expense                        `Interest Expense`
+EBIT = Operating Income                 `Operating Revenue`
+Net Sales                               `Total Revenue`                     
+Shares Outstanding                      `Share Issued`
+Total Debt (longterm + shortterm)       `Total Debt`
+Cash                                    `Cash And Cash Equivalents`
+Receivables                             `Receivables`
+
+
+SOURCES
+
+API (yfinance):
+https://pypi.org/project/yfinance/#description
+
+How to Calculate Historical Financial Ratios:
+https://eodhd.com/financial-academy/financial-faq/historical-financial-ratios-how-to-calculate/#:~:text=for%20any%20date.-,Historical%20Price%2Dto%2DEarnings%20Ratio%20(PE%20Ratio),Earnings%20section%20of%20the%20Fundamentals).
+
+How to Use yfinance API:
+https://www.analyticsvidhya.com/blog/2021/06/download-financial-dataset-using-yahoo-finance-in-python-a-complete-guide/
+https://analyzingalpha.com/yfinance-python#How_to_Download_Fundamental_Data_Using_yfinance

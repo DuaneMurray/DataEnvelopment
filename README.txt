@@ -1,3 +1,5 @@
+11,306 TOTAL STOCK SYMBOLS SOURCED FROM TD AMERITRADE - FROM ALL SECTORS
+
 Market Equity (size) = stock price * shares outstanding
 
 Inputs:
@@ -10,9 +12,7 @@ revenue
 operating profit
 net income
 
-
-
-Momentum - Buy Volume / Sell Volume = BOS
+Momentum = Buy Volume / Sell Volume = BOS
 
 an investment strategy with a long position of low-BOS winner stocks and a short position of high-BOS loser stocks can generate a higher return.
 
@@ -26,7 +26,7 @@ def Selling = V*(H-C)/(H-L);
 BOSratio = Buying / Selling
 
 
-Price to Earnings
+Price to Earnings:
 
 
 Price-to-Book Ratio:
@@ -64,7 +64,6 @@ High price-to-book ratio = growth stocks
 ###################################################################
 # ORIGINAL PROJECT README CONTENTS
 ###################################################################
-
 
 DATA SOURCE PROCESS: [THE TECHNOLGY SECTOR HAS BEEN IMPORTED FOR THIS PROJECT]
 

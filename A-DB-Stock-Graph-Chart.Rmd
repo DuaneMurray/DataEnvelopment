@@ -29,29 +29,29 @@ editor_options:
 # RUN THIS CHUNK TO GENERATE A BOOKDOWN PDF DOC, OTHERWISE, KNIT TO PDF
 knitr::opts_chunk$set(echo = TRUE)
 library(tinytex)
-library(bookdown);
-library(rmarkdown);
-library(kableExtra);
+library(bookdown)
+library(rmarkdown)
+library(kableExtra)
 rmarkdown::render("A-Graph-Chart-Playground.Rmd", "pdf_book")
 
 ```
 
 ```{r loadingPackages, include=FALSE, message=FALSE, warning=FALSE}
 
-library(kableExtra, quietly=TRUE)
-library(ROI, quietly=TRUE)             
-library(ROI.plugin.glpk, quietly=TRUE) 
-library(ompr, quietly=TRUE)            
-library(ompr.roi, quietly=TRUE)
-library(TRA, quietly=TRUE)
-library(rsvg, quietly=TRUE)
-library(DiagrammeR, quietly=TRUE)
-library(DiagrammeRsvg, quietly=TRUE)
-library(tidyverse, quietly=TRUE)
-library(lessR, quietly=TRUE)
-library(ggplot2, quietly=TRUE)
-library(RMySQL, quietly=TRUE)
-library (MultiplierDEA, quietly=TRUE)
+library(kableExtra, quietly = TRUE)
+library(ROI, quietly = TRUE)
+library(ROI.plugin.glpk, quietly = TRUE)
+library(ompr, quietly = TRUE)
+library(ompr.roi, quietly = TRUE)
+library(TRA, quietly = TRUE)
+library(rsvg, quietly = TRUE)
+library(DiagrammeR, quietly = TRUE)
+library(DiagrammeRsvg, quietly = TRUE)
+library(tidyverse, quietly = TRUE)
+library(lessR, quietly = TRUE)
+library(ggplot2, quietly = TRUE)
+library(RMySQL, quietly = TRUE)
+library(MultiplierDEA, quietly = TRUE)
 options(digits = 2)
 
 ```
@@ -73,10 +73,10 @@ options(digits = 2)
 
 ############################
 #
-SECTOR <- 'Basic Materials'
-FiscalYear <- '2015'
-StartDate <- '2014-12-31'
-EndDate <- '2016-01-01'
+SECTOR <- "Basic Materials"
+FiscalYear <- "2015"
+StartDate <- "2014-12-31"
+EndDate <- "2016-01-01"
 #
 ############################
 
@@ -87,11 +87,11 @@ EndDate <- '2016-01-01'
 ```{r LoadDataMySQL, echo=FALSE, message=FALSE}
 
 # CONNECT TO MYSQL DATABASE
-mydb = dbConnect(MySQL(), 
-                 user='vsc', 
-                 password='blaster123', 
-                 dbname='stock', 
-                 host='127.0.0.1')
+mydb <- dbConnect(MySQL(),
+                 user = "vsc",
+                 password = "blaster123",
+                 dbname = "stock",
+                 host = "127.0.0.1")
 
 # SHOW ALL TABLE IN THE CONNECTED DATABASE
 #print("Show all tables in the connected database:")
@@ -119,7 +119,8 @@ b.beta AS 'Beta', b.sigma AS 'Sigma', f.debtToEquity AS 'DToE',
 f.pToBv AS 'PToB', f.netIncomeToRevenue AS 'NetMrgn', 
 f.incomeNetPerWabso AS 'EPS', f.returnOnAssets AS 'ROA', 
 f.returnOnEquity as 'ROE', b.rate_of_return as 'TTMreturn',
-b.investment_entry_price AS 'entryPrice', b.one_year_price AS 'oneYRprice', b.three_year_price AS 'threeYRprice',
+b.investment_entry_price AS 'entryPrice', b.one_year_price AS 'oneYRprice', 
+b.three_year_price AS 'threeYRprice',
 b.five_year_price AS 'fiveYRprice', Sector as 'Sector'
 FROM price_quotes p, financials f, beta_sigma b, securities s
 WHERE p.Symbol = b.Symbol AND p.Symbol = f.Symbol AND p.symbol = s.Symbol
@@ -130,10 +131,10 @@ AND b.three_year_price IS NOT NULL
 AND b.five_year_price IS NOT NULL
 AND f.returnOnEquity IS NOT NULL
 AND f.debtToEquity != 0
-AND s.Sector = '%s'", StartDate, EndDate, FiscalYear, SECTOR);
+AND s.Sector = '%s'", StartDate, EndDate, FiscalYear, SECTOR)
 
-rs = dbSendQuery(mydb, sql_select)
-df = fetch(rs, n=-1) # GET THE DATA FROM THE QUERY RESULTS
+rs <- dbSendQuery(mydb, sql_select)
+df <- fetch(rs, n=-1) # GET THE DATA FROM THE QUERY RESULTS
 
 db_temp <- dbClearResult(rs) # FLUSH THE BUFFER, RESULTS INTO TEMP VAR
 #db_temp <- dbDisconnect(mydb) # CLOSE THE DATABASE CONNECTION, RESULTS IN TEMP
@@ -156,14 +157,14 @@ db_temp <- dbClearResult(rs) # FLUSH THE BUFFER, RESULTS INTO TEMP VAR
 converted_data <- data.matrix(df, rownames.force=NA)
 
 # GET THE X AND Y VARIABLES FOR DEA
-x <- data.matrix(converted_data[,2:5])  # ALL ROWS, COLS 2,3,4,5
-y <- data.matrix(converted_data[,6:10]) # ALL ROWS, COLS 6,7,8,9,10
+x <- data.matrix(converted_data[, 2:5])  # ALL ROWS, COLS 2,3,4,5
+y <- data.matrix(converted_data[, 6:10]) # ALL ROWS, COLS 6,7,8,9,10
 
 # SET THE DMU NAMES
-DMUnames <- df[,1] # ALL ROWS, COL 1
+DMUnames <- df[, 1] # ALL ROWS, COL 1
 
 # GET THE PRICE VALUES AT THE END OF EACH BACKTESTING HOLDING DATES
-oneThreeFiveYRprices <- df[,11:14] # ALL ROWS, COLS 11,12,13,14
+oneThreeFiveYRprices <- df[, 11:14] # ALL ROWS, COLS 11,12,13,14
 
 # BUILD DATAFRAME FOR BACKTESTING TIME FRAME PRICE VALUES
 backtestingPrices <- cbind(DMUnames, oneThreeFiveYRprices)

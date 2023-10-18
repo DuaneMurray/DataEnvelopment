@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+IYXI,0.0001,-52.34361,165157,363,0,1.0E-4-0.0124,0,"Inyx, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Steven  Handley,,,572,,,,,,,0,https://financialmodelingprep.com/image-stock/IYXI.png,2023-06-30,True,False,False,False,False

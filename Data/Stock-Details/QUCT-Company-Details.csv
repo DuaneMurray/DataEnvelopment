@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+QUCT,1224,0,29,0,10,1170.0-1425.0,-9,"Queen City Investments, Inc.",USD,,,,Other OTC,PNK,,,,,,US,,562-437-0011,302 Pine Ave P.O. Box 1370,Long Beach,CA,90801-1370,,0,https://financialmodelingprep.com/image-stock/QUCT.png,2012-09-25,True,False,False,False,False

@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+GNOLF,1e-06,-20.808105,35426,630,0,1.0E-6-0.009,-0.001,Genoil Inc.,USD,0001261002,,,Other OTC,PNK,,,,Mr. David K. Lifschultz,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/GNOLF.png,2004-10-29,True,False,True,False,False

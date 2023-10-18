@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+WPHM,0.09,-863.46936,1243,6966801,0,3.0E-4-0.294,0.0897,"Winston Pharmaceuticals, Inc.",USD,,,,Other OTC,PNK,,,,Dr. Joel E. Bernstein M.D.,,,9,,,,,,,0,https://financialmodelingprep.com/image-stock/WPHM.png,2023-06-05,True,False,False,False,False

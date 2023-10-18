@@ -1,0 +1,58 @@
+
+
+COMPANY OUTLOOK
+
+Provides all financial data
+
+https://financialmodelingprep.com/api/v4/company-outlook?symbol=AAPL
+
+
+COMPANY PROFILE
+
+A summary of important company information, including price, beta, market capitalization,description, headquarters, sector, industry, and more
+
+https://financialmodelingprep.com/api/v3/profile/AAPL
+
+
+DAILY CHART - HISTORICAL PRICES
+symbol=string
+from=date	2023-10-11
+to=date		2023-01-09
+https://financialmodelingprep.com/api/v3/historical-price-full/AAPL
+
+
+RATIOS
+
+symbol=string
+period=annual, quarter
+limit=number
+
+https://financialmodelingprep.com/api/v3/ratios/AAPL?period=quarter
+
+
+ECONOMIC INDICATORS
+
+name=string	GDP, Real GDP, Unemployment rate, more...
+from=date	2019-10-10
+to=date		2021-11-10
+
+https://financialmodelingprep.com/api/v4/economic?name=GDP
+
+
+SECTOR PERFORMANCE
+
+Current:
+https://financialmodelingprep.com/api/v3/sector-performance
+
+Historical:
+https://financialmodelingprep.com/api/v3/historical-sectors-performance
+
+
+ENVIRONMENTAL SOCIAL GOVERNANCE
+
+environmental, social, governance scores
+
+year=int	2022
+
+https://financialmodelingprep.com/api/v4/esg-environmental-social-governance-sector-benchmark?year=2022
+

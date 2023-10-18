@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+WNWG,1e-06,67.13128,13010,299,0,1.0E-6-2.0E-4,0,"Wentworth Energy, Inc.",USD,,,,Other OTC,PNK,,,,,,,3,,,,,,,0,https://financialmodelingprep.com/image-stock/WNWG.png,2005-05-13,True,False,False,False,False

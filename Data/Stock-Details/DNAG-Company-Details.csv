@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+DNAG,1e-06,34.0911,40742,645,0,1.0E-6-1.34E-4,0,"DNAPrint Genomics, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Jatin  Patel,,,24,,,,,,,0,https://financialmodelingprep.com/image-stock/DNAG.png,2001-02-22,True,False,False,False,False

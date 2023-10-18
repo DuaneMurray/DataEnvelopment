@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+BWAV,0.0001,10.201939,420,500,0,1.0E-6-1.0E-4,0.0001,Betawave Corporation,USD,,,,Other OTC,PNK,,,,Mr. Tabreez  Verjee,,,36,,,,,,,0,https://financialmodelingprep.com/image-stock/BWAV.png,2022-12-15,True,False,False,False,False

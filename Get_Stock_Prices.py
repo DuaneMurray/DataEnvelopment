@@ -175,9 +175,13 @@ for x in stock_list['Symbol']:
     #fundamental_valuations['date'] = pd.to_datetime(fundamental_valuations['date']/1000, unit="s")
     #fundamental_valuations['date'] = pd.to_datetime(fundamental_valuations['date'], unit="s")
     f_filename = x + '-Fundamentals.csv'
-    #fundamental_val.to_csv('Data/Fundamentals/' + f_filename, index=False)
+    fundamental_val.to_csv('Data/Fundamentals/' + f_filename, index=False)
 
     # GET PRICE HISTORY
-    #price_val = yf.download(x) # GET ALL PRICE DATA FOR SYMBOL FROM YFINANCE
-    #p_filename = x + '-Price-History.csv'
-    #price_val.to_csv('Data/Prices/' + p_filename, index=False)
+    price_val = fundamentals.history() # GET ALL PRICE DATA FOR SYMBOL FROM YFINANCE
+    price_val['symbol'] = x
+    #price_val['Date'] = pd.to_datetime(price_val['Date']/1000, unit="s")
+    price_val.to_sql(name='prices', con=engine, chunksize=430, if_exists='append') # ADD DATA TO EXISTING TABLE
+
+    p_filename = x + '-Price-History.csv'
+    price_val.to_csv('Data/Prices/' + p_filename, index=True)

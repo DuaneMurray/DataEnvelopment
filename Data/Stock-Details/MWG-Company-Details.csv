@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+MWG,0.439999,0,156351,13569569,0,0.361-16.33,0.0257,35137,USD,0001941500,,,American Stock Exchange,NYSE,,,,Mr. Eng Hock  Lim,,,87,,,,,,,0,https://financialmodelingprep.com/image-stock/MWG.png,2023-04-03,True,False,True,False,False

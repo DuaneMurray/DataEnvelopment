@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+TNGNQ,0.0001,39.8753,496135,192,0,1.0E-6-1.0E-4,0.0001,"Tengion, Inc.",USD,,,,Other OTC,PNK,,,,Mr. David I. Scheer,,,25,,,,,,,0,https://financialmodelingprep.com/image-stock/TNGNQ.png,2022-11-23,True,False,False,False,False

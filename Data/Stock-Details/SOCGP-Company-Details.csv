@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+SOCGP,24,0,681,2184000000,1.5,22.8-28.05,-0.25,Southern California Gas Company PFD SER A 6%,USD,0000092108,,,Other OTC,PNK,,,,,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/SOCGP.png,2007-08-08,True,False,False,False,False

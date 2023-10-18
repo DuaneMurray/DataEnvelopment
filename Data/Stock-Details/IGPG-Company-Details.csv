@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+IGPG,1e-05,90.047455,1040,1236,0,1.0E-6-2.0E-4,0,"Ignis Petroleum Group, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Geoffrey  Long,,,2,,,,,,,0,https://financialmodelingprep.com/image-stock/IGPG.png,2005-06-02,True,False,True,False,False

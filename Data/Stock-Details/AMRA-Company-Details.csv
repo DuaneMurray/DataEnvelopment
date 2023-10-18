@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+AMRA,0.0001,12828.889,6239,3295,0,1.0E-4-1.0E-4,0,"American Racing Capital, Inc.",USD,,,,Other OTC,PNK,,,,Mr. A. Robert Koveleski,,,1,,,,,,,0,https://financialmodelingprep.com/image-stock/AMRA.png,2023-05-01,True,False,False,False,False

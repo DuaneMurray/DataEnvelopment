@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+THPHF,1e-06,-46.746796,3320,9,0,1.0E-6-1.0E-6,0,Thinkpath Inc.,USD,,,,Other OTC,PNK,,,,Mr. Robert J. Trick,,,161,,,,,,,0,https://financialmodelingprep.com/image-stock/THPHF.png,2022-12-29,True,False,False,False,False

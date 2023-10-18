@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+VIAP,1e-06,-0.213716,11242,21,0,1.0E-6-1.0E-6,0,"VIA Pharmaceuticals, Inc.",USD,,,,Other OTC,PNK,,,,"Dr. Thomas  Quertermous FACC, M.D.",,,6,,,,,,,0,https://financialmodelingprep.com/image-stock/VIAP.png,2007-06-06,True,False,False,False,False

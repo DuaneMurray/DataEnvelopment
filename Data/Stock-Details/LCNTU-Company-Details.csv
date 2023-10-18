@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+LCNTU,520,0,0,7800000,0,505.0-550.0,0,Louisiana Central Oil & Gas Co.,USD,,,,Other OTC,PNK,,,,,,US,,212-772-8435,163 E 84th St,New York,NY,10028,,0,https://financialmodelingprep.com/image-stock/LCNTU.png,2012-08-22,True,False,False,False,False

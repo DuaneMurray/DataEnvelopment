@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+GETR,0.2768,0.934682,320292,25553678,0,0.23-10.17,0.0128,"Getaround, Inc.",USD,0001839608,,,New York Stock Exchange,NYSE,,,,Mr. Sam  Zaid,,,262,,,,,,,0,https://financialmodelingprep.com/image-stock/GETR.png,2021-04-26,True,False,True,False,False

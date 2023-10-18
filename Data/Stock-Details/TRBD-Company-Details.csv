@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+TRBD,1e-06,-58.89366,3833,1000,0,1.0E-6-2.5E-4,0,"Turbodyne Technologies, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Robert H. Davies,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/TRBD.png,2022-11-10,True,False,False,False,False

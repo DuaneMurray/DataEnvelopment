@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+NATUF,0.0001,-1.224108,2000250,23812,0,1.0E-6-1.0E-4,0.0001,North American Tungsten Corporation Ltd.,USD,,,,Other OTC,PNK,,,,Mr. Kurt E. Heikkila,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/NATUF.png,2022-11-14,True,False,False,False,False

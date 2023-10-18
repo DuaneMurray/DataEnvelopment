@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+AZGSQ,1e-06,1178.7402,2783,1031,0,1.0E-6-1.0E-6,0,"Aztec Oil & Gas, Inc.",USD,,,,Other OTC,PNK,,,,Ms. Ariane E. Cox,,,5,,,,,,,0,https://financialmodelingprep.com/image-stock/AZGSQ.png,2001-04-18,True,False,False,False,False

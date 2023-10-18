@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+IMMB,0.0006,-55.26048,5541,344979,0,1.0E-4-0.0062,0.0001,"Immunotech Laboratories, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Harry H. Zhabilov Jr.,,,4,,,,,,,0,https://financialmodelingprep.com/image-stock/IMMB.png,2022-12-01,True,False,False,False,False

@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+SPDE,1e-06,35.11846,4767,1,0,1.0E-6-0.05,0,Speedus Corp.,USD,,,,Other OTC,PNK,,,,Mr. Shant S. Hovnanian,,,20,,,,,,,0,https://financialmodelingprep.com/image-stock/SPDE.png,2023-06-23,True,False,False,False,False

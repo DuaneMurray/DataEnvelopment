@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+NIOIF,9,2.070169,0,14670989568,0,9.0-12.5,-1.8,NIO Inc.,USD,0001736541,,,Other OTC,PNK,,,,Mr. William  Li,,,26763,,,,,,,0,https://financialmodelingprep.com/image-stock/NIOIF.png,2022-12-06,True,False,False,False,False

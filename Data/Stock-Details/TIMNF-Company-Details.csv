@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+TIMNF,1e-06,-19.295116,24912,199,0,1.0E-6-0.15,0,Timminco Limited,USD,,,,Other OTC,PNK,,,,,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/TIMNF.png,2023-07-05,True,False,False,False,False

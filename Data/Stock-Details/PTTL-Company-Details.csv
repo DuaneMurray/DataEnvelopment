@@ -1,0 +1,2 @@
+symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
+PTTL,0.0001,14.453611,120,231,0,1.0E-6-1.0E-4,0.0001,"Pure Transit Technologies, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Carlos  Zalduondo,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/PTTL.png,2023-04-27,True,False,False,False,False

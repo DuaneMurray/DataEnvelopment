@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-CXBS,0.25,0,9500,5005650,0,1.0E-6-0.25,0.2499,"Corix Bioscience, Inc.",USD,,,,Other OTC,PNK,,,,Ms. Christ  Froese,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/CXBS.png,2017-03-14,True,False,False,False,False

@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-EFTI,0.0001,32.28334,4000,61179,0,1.0E-6-1.0E-4,0.0001,"EarthFirst Technologies, Incorporated",USD,,,,Other OTC,PNK,,,,,,,253,,,,,,,0,https://financialmodelingprep.com/image-stock/EFTI.png,2000-01-03,True,False,True,False,False

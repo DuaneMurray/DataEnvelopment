@@ -129,11 +129,11 @@ else:
                     for file in import_files), ignore_index=True)
     
     # MOVE THE FILES FROM THE SOURCE PATH TO THE DEST PATH
-    for file in import_files:
-        shutil.move(file, dest)
+    #for file in import_files:
+    #    shutil.move(file, dest)
 
     # PRINT THE DATAFRAME TO THE CONSOLE
-    print(df)
+    #print(df)
 
 
 # INSERT THE DATAFRAME INTO THE TABLE

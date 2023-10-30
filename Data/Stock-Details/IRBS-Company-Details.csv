@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-IRBS,1e-06,403.9477,3074,17,0,1.0E-6-6.0E-4,-0.0001,IR Biosciences Holdings Inc.,USD,,,,Other OTC,PNK,,,,"Dr. Chet  Leach Ph.D., D.A.B.T.",,,4,,,,,,,0,https://financialmodelingprep.com/image-stock/IRBS.png,2023-06-27,True,False,False,False,False

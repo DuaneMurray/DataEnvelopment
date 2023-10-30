@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-FRLI,0.0001,2.370973,11548,5347,0,1.0E-6-0.0401,-0.0009,"Frélii, Inc.",USD,0001223533,,,Other OTC,PNK,,,,Mr. Ian Geran Jenkins,,,10,,,,,,,0,https://financialmodelingprep.com/image-stock/FRLI.png,2009-08-03,True,False,True,False,False

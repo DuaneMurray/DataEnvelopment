@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-PALS,1e-06,0.356771,38,440,0,1.0E-6-0.015,0,"Mopals.com, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Alex  Haditaghi,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/PALS.png,2005-03-22,True,False,False,False,False

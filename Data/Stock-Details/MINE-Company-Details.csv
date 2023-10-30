@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-MINE,1e-06,62.3982,9308,145,0,1.0E-6-1.0E-4,-0.0001,"Minerco, Inc.",USD,,,,Other OTC,PNK,,https://minercoinc.com,,Julius  Jenge,,US,28,866-601-2639,25807 Westheimer Parkway,Katy,TX,77494,,0,https://financialmodelingprep.com/image-stock/MINE.png,2010-03-03,True,False,True,False,False

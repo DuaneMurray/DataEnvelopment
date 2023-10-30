@@ -1,2 +1,0 @@
-symbol,price,beta,volAvg,mktCap,lastDiv,range,changes,companyName,currency,cik,isin,cusip,exchange,exchangeShortName,industry,website,description,ceo,sector,country,fullTimeEmployees,phone,address,city,state,zip,dcfDiff,dcf,image,ipoDate,defaultImage,isEtf,isActivelyTrading,isAdr,isFund
-KGET,1e-06,-21.215794,1159890,4013,0,1.0E-6-1.0E-4,0,"CaliPharms, Inc.",USD,,,,Other OTC,PNK,,,,Mr. Brian Wayne Geer,,,,,,,,,,0,https://financialmodelingprep.com/image-stock/KGET.png,2013-12-24,True,False,True,False,False

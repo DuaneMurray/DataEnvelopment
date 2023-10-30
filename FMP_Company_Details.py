@@ -34,7 +34,9 @@ output_file_directory ="Stock-Details/"  # DIRECTORY NAME TO STORE OUTPUT CSV FI
 #stock_list = pd.read_csv(data_directory + "Symbols-Information-Technology.csv")
 #stock_list = pd.read_csv(data_directory + "Symbols-Materials.csv")
 #stock_list = pd.read_csv(data_directory + "Symbols-Real-Estate.csv")
-stock_list = pd.read_csv(data_directory + "Symbols-Utilities.csv")
+#stock_list = pd.read_csv(data_directory + "Symbols-Utilities.csv")
+
+stock_list = pd.read_csv(data_directory + "NASDAQ.csv")
 ##########
 
 # LOOP THROUGH THE LIST OF SYMBOLS INPUT FROM THE DEFINED stock_list FILE

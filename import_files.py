@@ -34,6 +34,11 @@ engine = create_engine(db_data).connect()
 # USE ONE SOURCE DIRECTORY AT A TIME
 # current_dir = os.getcwd()
 
+########################################################
+# COMPANY DETAIL DATA FILES:
+source = 'Data\\Stock-Details\\'
+dest = 'Data\\Stock-Details\\Archive\\'
+
 
 ########################################################
 # FUNDMENTAL DATA FILES:
@@ -67,8 +72,8 @@ engine = create_engine(db_data).connect()
 #source = 'ConsumerDiscretionary\\Fundamentals\\'
 #dest = 'ConsumerDiscretionary\\Fundamentals\\Archive\\'
 #
-source = 'ConsumerStaples\\Fundamentals\\'
-dest = 'ConsumerStaples\\Fundamentals\\Archive\\'
+#source = 'ConsumerStaples\\Fundamentals\\'
+#dest = 'ConsumerStaples\\Fundamentals\\Archive\\'
 #########################################################
 
 #########################################################
@@ -143,7 +148,9 @@ else:
 # FINANCIALS INSERT
 #
 #df.to_sql(name='financials', con=engine, chunksize=430, if_exists='replace') # REPLANCE ENTIRE TABLE WITH NEW ONE
-df.to_sql(name='financials', con=engine, chunksize=430, if_exists='append') # ADD DATA TO EXISTING TABLE
+df.to_sql(name='company_details', con=engine, chunksize=5000, if_exists='append') # ADD DATA TO EXISTING TABLE
+#df.to_sql(name='financials', con=engine, chunksize=430, if_exists='append') # ADD DATA TO EXISTING TABLE
+#df.to_sql(name='financials', con=engine, chunksize=430, if_exists='append') # ADD DATA TO EXISTING TABLE
 #
 #####################################################################
 

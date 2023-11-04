@@ -33,9 +33,11 @@ api_token = '?apikey=806a23dbb33fc1793a282fde9990c045' # ADD TO END OF REST API 
 base_url = 'https://financialmodelingprep.com/api/v3/profile/'  # ADD SYMBOL ON END OF URL
 
 ##########
+#stock_list = pd.read_sql('SELECT DISTINCT symbol FROM exchange_symbols WHERE symbol="AAPL" ORDER BY symbol', engine1)
+
 #stock_list = pd.read_sql('SELECT symbol FROM exchange_symbols WHERE exchange="AMEX" ORDER BY symbol', engine1)
 #stock_list = pd.read_sql('SELECT symbol FROM exchange_symbols WHERE exchange="NYSE"', engine1)
-#stock_list = pd.read_sql('SELECT symbol FROM exchange_symbols WHERE exchange="NASDAQ"', engine1)
+stock_list = pd.read_sql('SELECT symbol FROM exchange_symbols WHERE exchange="NASDAQ"', engine1)
 ##########
 
 # LOOP THROUGH THE LIST OF SYMBOLS INPUT FROM THE DEFINED stock_list FILE

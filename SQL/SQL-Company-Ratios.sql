@@ -1,0 +1,1 @@
+SELECT * FROM stockdata.company_ratios;

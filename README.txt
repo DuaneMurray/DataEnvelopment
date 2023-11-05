@@ -1,28 +1,212 @@
-11,306 TOTAL STOCK SYMBOLS SOURCED FROM TD AMERITRADE - FROM ALL SECTORS
+DATA SOURCE: FINANCIAL MODELING PREP (https://site.financialmodelingprep.com/)
+REST API DOCS: https://site.financialmodelingprep.com/developer/docs
+
+8,676 US STOCK SYMBOLS SOURCED WHERE ALL ROWS CONTAIN COMPLETE FINANCIAL AND TECHNICAL DATA
+
+11 SECTORS:
+Financial Services
+Basic Materials
+Consumer Defensive
+Industrials
+Energy
+Healthcare
+Communication Services
+Consumer Cyclical
+Technology
+Real Estate
+Utilities
+
+162 INDUSTRIES:
+Advertising Agencies
+Aerospace & Defense
+Agricultural Inputs
+Airlines
+Airports & Air Services
+Aluminum
+Apparel Manufacturing
+Apparel Retail
+Application Software
+Asset Management
+Auto & Truck Dealerships
+Auto Manufacturers
+Auto Parts
+Banks
+Banks—Diversified
+Banks—Regional
+Beverages—Brewers
+Beverages—Non-Alcoholic
+Beverages—Wineries & Distilleries
+Biotechnology
+Broadcasting
+Building Materials
+Building Materials Wholesale
+Building Products & Equipment
+Business Equipment & Supplies
+Business Services
+Capital Markets
+CATV Systems
+Chemicals
+Closed-End Fund - Equity
+Coking Coal
+Communication Equipment
+Communication Services
+Computer Hardware
+Confectioners
+Conglomerates
+Consulting Services
+Consumer Electronics
+Copper
+Credit Services
+Department Stores
+Diagnostics & Research
+Discount Stores
+Diversified Communication Services
+Drug Manufacturers—General
+Drug Manufacturers—Specialty & Generic
+Education & Training Services
+Electrical Equipment & Parts
+Electronic Components
+Electronic Gaming & Multimedia
+Electronics & Computer Distribution
+Engineering & Construction
+Entertainment
+Farm & Heavy Construction Machinery
+Farm Products
+Financial Conglomerates
+Financial Data & Stock Exchanges
+Food Distribution
+Footwear & Accessories
+Furnishings, Fixtures & Appliances
+Gambling
+Gold
+Grocery Stores
+Health Information Services
+Healthcare Plans
+Home Improvement Retail
+Homebuilding & Construction
+Household & Personal Products
+Independent Oil & Gas
+Industrial Distribution
+Industrial Metals & Minerals
+Information Technology Services
+Infrastructure Operations
+Insurance Brokers
+Insurance Specialty
+Insurance—Diversified
+Insurance—Life
+Insurance—Property & Casualty
+Insurance—Reinsurance
+Insurance—Specialty
+Integrated Freight & Logistics
+Internet Content & Information
+Internet Retail
+Leisure
+Lodging
+Lumber & Wood Production
+Luxury Goods
+Marine Shipping
+Marketing Services
+Medical Care Facilities
+Medical Devices
+Medical Distribution
+Medical Instruments & Supplies
+Metal Fabrication
+Mortgage Finance
+Oil & Gas Drilling
+Oil & Gas E&P
+Oil & Gas Equipment & Services
+Oil & Gas Integrated
+Oil & Gas Midstream
+Oil & Gas Refining & Marketing
+Other Industrial Metals & Mining
+Other Precious Metals & Mining
+Packaged Foods
+Packaging & Containers
+Paper & Paper Products
+Personal Services
+Pharmaceutical Retailers
+Pollution & Treatment Controls
+Publishing
+Railroads
+Real Estate Services
+Real Estate—Development
+Real Estate—Diversified
+Recreational Vehicles
+REIT—Diversified
+REIT—Healthcare Facilities
+REIT—Hotel & Motel
+REIT—Industrial
+REIT—Mortgage
+REIT—Office
+REIT—Residential
+REIT—Retail
+REIT—Specialty
+Rental & Leasing Services
+Residential Construction
+Resorts & Casinos
+Restaurants
+Retail Apparel & Specialty
+Scientific & Technical Instruments
+Security & Protection Services
+Semiconductor Equipment & Materials
+Semiconductors
+Shell Companies
+Silver
+Software—Application
+Software—Infrastructure
+Solar
+Specialty Business Services
+Specialty Chemicals
+Specialty Industrial Machinery
+Specialty Retail
+Staffing & Employment Services
+Steel
+Telecom Services
+Telecom Services - Foreign
+Textile Manufacturing
+Thermal Coal
+Tobacco
+Tools & Accessories
+Travel Services
+Trucking
+Uranium
+Utilities Diversified
+Utilities Regulated
+Utilities—Diversified
+Utilities—Independent Power Producers
+Utilities—Regulated Electric
+Utilities—Regulated Gas
+Utilities—Regulated Water
+Utilities—Renewable
+Waste Management
+
+
+INITIAL MODELING CONCEPTS:
 
 Market Equity (size) = stock price * shares outstanding
 
 Inputs:
 Average Equity
-average asset
-sales costs
+Average asset
+Sales costs
 
 Outputs:
-revenue
-operating profit
-net income
+Revenue
+Operating profit
+Net income
 
-Momentum = Buy Volume / Sell Volume = BOS
+BOS = Momentum = Buy Volume / Sell Volume
 
-an investment strategy with a long position of low-BOS winner stocks and a short position of high-BOS loser stocks can generate a higher return.
+An investment strategy with a long position of low-BOS (winner stocks) and a short position 
+of high-BOS (loser stocks) may potentially generate higher returns.
 
-def O = open;
-def H = high;
-def C = close;
-def L = low;
-def V = volume;
-def Buying = V*(C-L)/(H-L);
-def Selling = V*(H-C)/(H-L);
+O = open;
+H = high;
+C = close;
+L = low;
+V = volume;
+Buying = V*(C-L)/(H-L);
+Selling = V*(H-C)/(H-L);
 BOSratio = Buying / Selling
 
 
@@ -65,80 +249,19 @@ High price-to-book ratio = growth stocks
 # ORIGINAL PROJECT README CONTENTS
 ###################################################################
 
-DATA SOURCE PROCESS: [THE TECHNOLGY SECTOR HAS BEEN IMPORTED FOR THIS PROJECT]
-
-0. Used NASDAQ online services to obtains lists of stock symbols for each Sector
-    A. https://www.nasdaq.com/market-activity/stocks/screener
-
-1. Used GOOGLEFINANCE API to obtain S&P 500 data (2012-July2023)
-    A. =INDEXDATA("SPX","all","1/1/2012", "12/31/2023")
-
-2. Used IEX service to obtain price history and fundamentals for NASDAQ Sector stocks
-    A. Project/Data/IEX_Fundamentals_Import.py
-    B. Project/Data/IEX_Price_History_Import.py
-    C. Created CSV files containing the price and financial data from IEX
-
-3. Imported the CSV files into MySQL Workbench to create tables (Table Data Import Wizard)
-    A. Created Database: stock
-    A. financials table
-    B. price_quotes table
-    C. securities table
-    D. beta_sigma table
-    D. sp500 table
 
 4. Calculated Beta and Sigma values and placed into new database table
-    A. Project/Data/fundamentals/beta_calculation.py for calculation and table insert
+    A. Project/beta_calculation.py for calculation and table insert
     B. MySQL beta_sigma table contains values for timeframe provided in the beta_calc script
 
 5. Can update values for Beta, Sigma, investment date of portfolio, 1yr, 3yr, 5yr prices for rate of return calcs
-    A. Project/Data/fundamentals/update_beta_calculations.py
+    A. Project/update_beta_calculations.py
 
 
 DATA USAGE:
 
-Sigma and Beta were calculated for the year end of 2015 (2015-12-31).
-Initial backtesting investment date will be January 4, 2016 (2016-01-04)
-    First trading day of the year after new years day holiday
-
 Rate of Return % = [(Current Value – Initial Value) / Initial Value] x 100
 
-One year return: 2016-12-31
-Three year return: 2018-12-31
-Five year return: 2020-12-31
-
-DATES FOR RETURNS ANALYSIS:
-
-Symbol  Date            Close
-AMD	    2020-12-31	    91.71
-AMD	    2019-12-31	    45.86
-AMD	    2018-12-31	    18.46
-AMD	    2017-12-29	    10.28
-AMD	    2016-12-30	    11.34
-AMD	    2015-12-30	    2.87
-
-Get the investment amount:
-
-=INDEX(GOOGLEFINANCE($A$3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2)
-
-Get the close amount for specific future return date:
-
-5 YR:
-=((INDEX(GOOGLEFINANCE(H3, "close", DATE(2020,12,31), 1, "DAILY"), 2, 2) 
-- INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2)) 
-/ INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2))
-
-3 YR:
-=((INDEX(GOOGLEFINANCE(H3, "close", DATE(2018,12,31), 1, "DAILY"), 2, 2) 
-- INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2)) 
-/ INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2))
-
-1 YR:
-=((INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,12,30), 1, "DAILY"), 2, 2) 
-- INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2)) 
-/ INDEX(GOOGLEFINANCE(H3, "close", DATE(2016,1,4), 1, "DAILY"), 2, 2))
-
-
-**NOTE ON DATA: DO NOT USE UNDERSCORES IN THE COLUMN NAMES - RMARKDOWN ERRORS OCCUR
 
 DEA MODEL INPUTS:
 

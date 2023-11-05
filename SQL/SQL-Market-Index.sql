@@ -1,4 +1,4 @@
-SELECT count(*) FROM stockdata.market_index;
+SELECT * FROM stockdata.market_index;
 
 # GET THE SP500 DATA
 #SELECT * FROM stockdata.market_index

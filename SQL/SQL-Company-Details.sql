@@ -3,8 +3,8 @@
 
 #SELECT DISTINCT exchangeShortName FROM stockdata.company_details;
 
-#SELECT COUNT(*) FROM company_details
-#WHERE exchangeShortName = 'NASDAQ';
+SELECT * FROM company_details
+WHERE exchangeShortName = 'NASDAQ';
 
 #SELECT DISTINCT sector FROM company_details
 #WHERE sector IS NOT NULL AND sector != ''

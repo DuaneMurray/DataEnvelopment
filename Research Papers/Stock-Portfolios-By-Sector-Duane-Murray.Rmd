@@ -1,0 +1,986 @@
+---
+title: "| ETM-537 Final Project\n| \n| Efficient Stock Market Portfolios by NASDAQ Sectors using DEA\n"
+author: "Duane Murray"
+date: "2023-07-09"
+header-includes:
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+output: 
+  pdf_book: 
+    toc: true 
+    toc_depth: 4
+  pdf_document: 
+    toc: true 
+    toc_depth: 4
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+\newpage
+
+```{r, include=FALSE, eval=FALSE}
+
+# RUN THIS CHUNK TO GENERATE A BOOKDOWN PDF DOC, OTHERWISE, KNIT TO PDF
+knitr::opts_chunk$set(echo = TRUE)
+library(tinytex)
+library(bookdown);
+library(rmarkdown);
+library(kableExtra);
+rmarkdown::render("Stock-Portfolios-By-Sector-Duane-Murray.Rmd", "pdf_book")
+
+```
+
+```{r loadingPackages, include=FALSE, message=FALSE, warning=FALSE}
+
+library(kableExtra, quietly=TRUE)
+library(ROI, quietly=TRUE)             
+library(ROI.plugin.glpk, quietly=TRUE) 
+library(ompr, quietly=TRUE)            
+library(ompr.roi, quietly=TRUE)
+library(TRA, quietly=TRUE)
+library(rsvg, quietly=TRUE)
+library(DiagrammeR, quietly=TRUE)
+library(DiagrammeRsvg, quietly=TRUE)
+library(tidyverse, quietly=TRUE)
+options(digits = 2)
+
+```
+
+# Introduction
+
+Investing in the stock market is common among firms, individuals, and
+other entities as a method to increase the value of their retained
+holdings. Several risks exist with this form of investing due to the
+outside actions of other stock traders, news events, and unforeseen
+shocks that occur within the economy. Thousands of stocks are available
+to trade in the United States markets which are divided primarily into
+the New York Stock Exchange (NYSE), and the National Association of
+Securities Dealers Automated Quotations (NASDAQ) [1]. In
+addition, several market indices track specific portfolios of stocks,
+such as the Dow Jones Industrial Average (DJI), and the S&P 500 Index
+(SPX). Further, many stocks are binned into Sectors, such as Technology,
+Telecommunications, and others, which are then broken deeper into
+Industry classifications that include Hardware, Software, and many
+others [1]. Given the voluminous size of the stock market, and the outside
+influences that create price movements, it is a significant challenge to
+pick profitable stocks.
+
+This study uses Data Envelopment Analysis (DEA) as a tool to help
+evaluate groups of stocks to find which may be the most efficient in
+regard to how they perform in the market. DEA uses linear programming
+(LP), and can use large numbers of decision making units (DMUs) to
+perform a comparative analysis of units in a data set by computing the
+relative efficiency for each DMU. Using this analysis, a DMU with a
+value of one (1) is considered 100% efficient in relation to the other
+DMUs within the set [2]. This study focuses Sectors within the NASDAQ market 
+to find 100% efficient stocks to combine to create portfolios that outperform 
+the S&P 500 market index return rates.
+
+Differing time frames are used by stock traders depending on the risk
+tolerance of the investor. This includes day trading, swing trading, and
+long-term investing [3]. This study focuses on the longer term, using the
+1-year, 3-year, and 5-year investment windows for back-testing analysis.
+The DEA model uses both technical and fundamental indicators as the
+input and output variables. Technical indicators are values that are
+derived solely by the price and volume changes in the market, and
+fundamental indicators are derived from the underlying firms publicly
+filed financial statements [4]. From a technical analysis perspective, there
+is an assumption that news events, and outside effects are all baked
+into the current price of a stock. Further, it considers that history
+tends to repeat itself, so past price movements are used to predict
+future prices. From the fundamental analysis side, the financial health
+of the underlying firm is an important factor to consider. There are
+several financial ratios used to assess how a firm is operating. For
+example, these ratios can provide insight into how profitable the firm
+may be, including how much debt it is carrying, how much inventory it
+holds, and how it handles its retained earnings, which are all taken
+into consideration of the investment decision [5].
+
+It has been shown in several other studies that using a mixture of
+technical and fundamental variables within a DEA model can produce an
+effective positive return stock portfolio. This study uses variables
+defined within prior studies using a technical/fundamental variable mixture [6].
+Back testing is completed in this study to verify the effectiveness of
+using this DEA method to build an efficient stock portfolio. This
+testing is performed using historical data by measuring the rate of
+change that each stock experienced over 1, 3, and 5 year time periods
+after its initial investment date [7]. An analysis of the average rate of
+return for the portfolio is then compared to the rate of return provided
+by the S&P 500 over the same time periods. The S&P 500 return rates
+define the minimum acceptable rate of return (MARR) for analysis. This
+assessment is used to determine if the portfolio outperformed, matched,
+or under performed the market benchmark [8].
+
+This study begins by discussing some of the prior research that has been done in
+using DEA for stock analysis, then sets to define and describe the model and
+data set, including the input and output variables used in the model. Next, the 
+efficiency results provided by the model are explored by examining constant 
+returns scale and variable returns to scale approaches. Using the efficiency 
+results from both of these approaches, back-testing is then done to assess the 
+rate of return results outcomes for comparison to the average market returns, 
+which is then followed by concluding remarks.
+
+\newpage
+
+# Literature Review
+
+Using DEA to select stocks through the analysis of their respective relative 
+efficiency scores has been done in prior research studies. In DEA terms, each
+stock in the data set is treated as a unique decision making unit (DMU) where
+comparisons are made to determine which DMUs are the most efficient. Methods
+can be used in DEA to identify areas of improvement in non-efficient units to
+potentially increase efficiency to meet those that are on the efficiency
+frontier [2].
+
+This study focuses on building portfolios of stocks sourced from NASDAQ
+Sectors using the methodology of prior work, where source variables
+come from a mixture of technical and fundamental stock indicators [4, 6]. Prior 
+studies have shown that using only technical or only fundamental indicators to
+build an efficient stock portfolio do not perform as well as using a mixture of
+each [6].
+
+An examination of the use of a mixture of various momentum-based and fundamental 
+financial based stock indicators shows that [9]:
+
+- The future performance of stock returns is positively related to a firms
+financial condition.
+- Past returns suggest future return rates.
+- The statistical correlation between technical and fundamental variables are low.
+- Combining past returns, momentum indicators, and fundamentals generates better 
+performance in regard to return rates than momentum or fundamental indicators alone.
+
+The selection of specific performance metrics to evaluate a firms efficiency is
+paramount to making an investment decision. In building a stock portfolio, it has
+been found that only using 100% efficient stocks provide the best returns than
+those that rate in ranges, such as 80% or above. In addition, it has been found
+that the size of a firm is not a predictor of future stock value. Further, 
+DEA input-oriented models have shown to provide better results than output-oriented
+models, and these model both statistically outperform the industry averages [10].
+
+Using the each firms Debt to Equity, and Price to Book ratios, together with the
+standard deviation and beta momentum technical indicators as DEA model inputs 
+combined with each Net Profit Margin, Rate of Return, Earnings Per Share, 
+Return on Assets, and Return on Equity ratio as outputs, has shown to be 
+effective in producing a high performance stock portfolio [9].
+
+
+# Data and Methodology
+
+The data set used in this study was sourced from NASDAQ Sectors of stocks 
+traded in the United States for the years 2015-2022. The initial data set 
+contained 1641 unique stocks. This set of data was then cleaned by:
+
+-   Removal of stocks that did not contain a full years worth of data
+    (new stocks).
+-   Removal of stocks that did not contain numeric values to effectively
+    calculate all input and output variables.
+
+Technical stock indicators used are the Beta ($\beta$) [11], Sigma
+($\sigma$) [12], and 1-Year Return Rate values. These indicators provide
+insight into how well the stock moves in relation to the overall market,
+how much the range of the closing price fluctuates over time, and the
+annual return rate. The calculations for the Beta and Sigma were done
+using a one-year window starting on the first trading day of January,
+2015, through the last trading day of December, 2015.
+
+Fundamental stock values come from each firms Profit & Loss, and Balance
+Sheet financial statements as provided in their Security and Exchange
+Commission (SEC) 10-K filings. These values come from the reported
+income and reports for the full year (annual) of 2015. These
+"fundamentals" are Debt to Equity, Price to Book, Earnings per Share,
+Return on Assets, Return on Equity, and the Net Profit Margin [4].
+
+Back-testing of the resulting lists of efficient stocks to measure
+outcome results is completed by using January 4, 2016 as the initial
+investment starting date [7]. Measurement of the rate of return provided by
+each stock using historical data from this starting date is used to
+assess later time frames. An assessment of the performance of the DEA
+generated stock portfolio is done using the average 1-Year, 3-Year, and
+5-Year return rates, compared to the average 1-Year, 3-Year, and 5-Year
+return rates of the S&P 500 market index. A portfolio return rate that
+is greater than the S&P 500 return rate is considered to be
+outperforming the market; less than the S&P 500 return rate would be
+under performing the market [8].
+
+\vspace{12pt}
+
+## Input Oriented Mathematical Model
+
+The mathematical multiple input, multiple output model used in this study uses
+a generalized input-oriented approach as show below [2]:
+
+$$
+\begin{split}
+\begin{aligned}
+    \text{min  }   & \theta \\
+    \text{s.t.:  } & \sum_{j=1}^{N^D} x_{i,j}\lambda_j - \theta x_{i,k} \leq 0 \; \forall \; i\\
+                   & \sum_{j=1}^{N^D} y_{r,j}\lambda_j \geq  y_{r,k} \;  \forall \; r\\
+                   & \lambda_j \geq 0  \; \forall \; j
+  \end{aligned}
+ \end{split}
+$$
+
+## Input-Output Diagram
+
+The DEA model in this study uses 4 inputs, and 5 outputs. As visually
+shown below, the inputs to the NASDAQ Stock Sector DEA model
+are each firm's Debt to Equity, Price to Book, Beta, and Sigma values.
+The outputs for the model are the Earnings per Share, Return on Assets,
+Return on Equity, Net Profit Margin, and the Trailing 12-Month Rate of
+Return.
+
+```{r IOdiagram, eval=TRUE, echo=FALSE, out.width="100%", fig.align='center'}
+
+XFigNames <- c("Debt to Equity", "Price to Book", "Beta", "Sigma")
+
+YFigNames <- c("Earnings Per Share (EPS)", "Return on Assets", "Return on Equity",
+               "Net Profit Margin", "Trailing 12-Month (TTM) Rate of Return")
+
+Figure <- DrawIOdiagram (XFigNames,YFigNames, '"\n\nNASDAQ\nStock Sectors\n\n "')
+
+tmp <- capture.output(rsvg_png(charToRaw (export_svg(Figure)), 
+                               'IO-Stock-Diagram.png'))
+
+knitr::include_graphics("IO-Stock-Diagram.png")
+
+```
+
+\newpage
+
+## Inputs
+
+\vspace{12pt}
+
+### Beta ($\beta$)
+
+The Beta ($\beta$) value indicates how volatile the price of a stock is
+when compared to the overall stock market. The S&P 500 market index is
+commonly used for this calculation, and is used in this study for this
+purpose. A Beta value greater than one (1) is an indication that the
+price of the stock moves wildly up or down and is more volatile than the
+comparison index. A Beta value that is less than one (1) indicates that
+the price of the stock is less volatile than the comparison index [11].
+
+$$
+\begin{aligned}
+\beta_a = \frac { \text{Cov} ( r_a, r_b ) }{ \text{Var} ( r_b ) } \\ 
+\end{aligned}
+$$ 
+
+This value can also be calculated using a linear regression method
+where the stock price values are the dependent variable values, and the
+reference index value, the S&P 500 in this study, as the independent
+variable values. The coefficient of the result is the Beta value (the
+slope).
+
+### Sigma ($\sigma$)
+
+The Sigma ($\sigma$) value is another measurement of volatility that
+shows how far prices move above or below the mean. It is a measurement
+of the spread that a stock price moves around its average price. A high
+standard deviation means that there is high volatility, where a smaller
+standard deviation, or spread in prices indicates low volatility [12].
+
+$$
+\begin{aligned}
+\sigma = \sqrt{\frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2}
+\end{aligned}
+$$
+
+\vspace{12pt}
+
+### Debt to Equity Ratio
+
+\vspace{12pt}
+
+This is the ratio of firm's Total Liabilities to Equity Capital. A high
+Debt to Equity Ratio indicates a higher risk to investors. A low Debt to
+Equity indicates a lower risk to investors [13].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{Debt to Equity Ratio} & = \frac{\text{Total Debt}} {\text{Total Equity}}
+  \end{aligned}
+\end{split}
+$$
+
+### Price to Book Ratio
+
+\vspace{12pt}
+
+From an investment perspective, the Price to Book Ratio is used for
+comparison of a firms market capitalization to its book value. It is
+derived through dividing the firms current stock price by its book value
+per share. This ratio indicates how well the stock is priced related to
+the book value of the firm. A Price to Book ratio under one (1)
+indicates that the price of the stock is lower than the value of the
+firm, suggesting that the stock is under priced. A lower Price to Book
+is better than a higher Price to Book ratio when considering an
+investment [14].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{Price to Book Ratio} & = \frac{\text{Current Stock Price Per Share}} {\text{Book Value Per Share}}
+  \end{aligned}
+\end{split}
+$$
+
+## Outputs
+
+\vspace{12pt}
+
+### Earnings per Share (EPS)
+
+This calculation is made using a firm's net income divided by the number of 
+outstanding shares of its common stock. A higher EPS indicates that the firm is
+more profitable in comparison to others with lower EPS values. EPS is best used
+as a comparison metric between other stocks rather than as an individualized 
+rating [15].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{EPS} & = \frac{\text{Net Profit}} {\text{Outstanding Shares Of Common Stock}}
+  \end{aligned}
+\end{split}
+$$
+
+### Return on Assets (ROA)
+
+The Return on Assets ratio indicates how profitable a firm is related to its 
+assets. This value provides insight into how well a firm uses its assets to
+generate profits. In relative terms, a higher Return on Asset value means that
+the firm more effectively uses its assets in profit generation [16].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{ROA} & = \frac{\text{Net Income}} {\text{Total Assets}}
+  \end{aligned}
+\end{split}
+$$
+
+### Return on Equity (ROE)
+
+Return on Equity shows how well a firm manages its overall equity which is
+calculated taking its net income and dividing it by subtracting the firms assets
+minus all debts from the balance sheet. This in short can be considered the
+firms return on net assets. Different industries utilize debt financing as part
+of their normal operations. The Return on Equity removes this from consideration
+and thus provides a more balanced view regardless of industry dependent 
+operation methods [17].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{ROE} & = \frac{\text{Net Income}} {\text{Total Equity}}
+  \end{aligned}
+\end{split}
+$$
+
+### Net Profit Margin
+
+The Net Profit Margin is an important, and widely used ratio that shows how well
+a firm is operating. It is calculated using the net profit the firm generates 
+and dividing by its total revenue. This ratio is used to compare firms against
+each other and considers how well the firm controls its costs and overhead a 
+higher Net Profit Margin is better than lower values [18].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{Net Profit Margin} & = \frac{\text{Net Profit}} {\text{Revenue}}
+  \end{aligned}
+\end{split}
+$$
+
+### Trailing 12-Month Return (TTM)
+
+Rate of change for the stock price from the beginning of the year and
+the end of the year. In this study the rate of return is calculated
+using the start date of January 1, 2015 and the end date of 
+December 31, 2015. A higher return rate is better than a lower rate [19].
+
+$$
+\begin{split}
+ \begin{aligned}
+\text{Rate of Return} & = \frac{(\text{Close Price}_{End} - \text{Close Price}_{Start})} {\text{Close Price}_{Start}}
+  \end{aligned}
+\end{split}
+$$
+
+\newpage
+
+## Data Exploration
+
+```{r loadAndConvertData, echo=FALSE}
+
+# LOAD DATAFILE FROM CSV
+df = read.csv("Basic-Materials-DEA-Input-AND-Output-Values.csv")
+#df = read.csv("Technology-DEA-Input-AND-Output-Values.csv")
+#df = read.csv("ALL-DEA-Input-AND-Output-Values.csv")
+
+df_Utilities = read.csv("Utilities-DEA-Input-AND-Output-Values.csv")
+df_Technology = read.csv("Technology-DEA-Input-AND-Output-Values.csv")
+df_BasicMat = read.csv("Basic-Materials-DEA-Input-AND-Output-Values.csv")
+df_ConsumerDisc = read.csv("Consumer-Discretionary-DEA-Input-AND-Output-Values.csv")
+df_ConsumerStaples = read.csv("Consumer-Staples-DEA-Input-AND-Output-Values.csv")
+df_Energy = read.csv("Energy-DEA-Input-AND-Output-Values.csv")
+df_Finance = read.csv("Finance-DEA-Input-AND-Output-Values.csv")
+df_HealthCare = read.csv("Health-Care-DEA-Input-AND-Output-Values.csv")
+df_Industrials = read.csv("Industrials-DEA-Input-AND-Output-Values.csv")
+df_RealEstate = read.csv("Real-Estate-DEA-Input-AND-Output-Values.csv")
+df_Telecom = read.csv("Telecommunications-DEA-Input-AND-Output-Values.csv")
+
+sp500 <- read.csv("SP500-Return-Calculation-Dates.csv")
+
+# CONVERT DATFRAME TO MATRIX FOR PROCESSING
+converted_data <- data.matrix(df, rownames.force=NA)
+
+# GET THE X AND Y VARIABLES FOR DEA
+x <- data.matrix(converted_data[,2:5])  # ALL ROWS, COLS 2,3,4,5
+y <- data.matrix(converted_data[,6:10]) # ALL ROWS, COLS 6,7,8,9,10
+
+# SET THE DMU NAMES
+DMUnames <- df[,1]
+
+oneThreeFiveYRprices <- df[,11:14]
+backtestingPrices <- cbind(DMUnames, oneThreeFiveYRprices)
+
+# SET THE LOOP COUNT AND DATA VARIABLE SIZES
+NX <- ncol(x); NY <- ncol(y); ND <- nrow(x)
+xdata <- x[1:ND,]
+dim(xdata) <- c(ND, NX) 
+ydata <- y[1:ND,]
+dim(ydata) <- c(ND, NY)
+
+```
+
+```{r showExampleData, echo=FALSE}
+
+xdivider <- data.frame(DMU=c('---'), Beta=c('---'), Sigma=c('---'), DToE=c('---'), PToB=c('---'))
+
+ydivider <- data.frame(DMU=c('---'), NetMrgn=c('---'), EPS=c('---'), ROA=c('---'), ROE=c('---'), TTMreturn=c('---'))
+
+xx <- head(cbind(df['DMU'], x)) # SELECT THE FIRST FEW LINES FROM THE DATA
+xxt <- tail(cbind(df['DMU'], x))
+xxd <- rbind(xx,xdivider,xxt)
+
+yy <- head(cbind(df['DMU'], y))
+yyt <- tail(cbind(df['DMU'], y))
+yyd <- rbind(yy,ydivider,yyt)
+
+```
+
+### Snapshot View of the INPUT ($x$) Data Set
+
+The input variables used in the DEA model for this study use the Beta,
+Sigma, Debt to Equity, and Price to Book Ratios for each stock to be
+evaluated. The table below shows a snapshot of the first six (6), and
+last six (6) rows of the input data set used.
+
+```{r, echo=FALSE}
+
+# SHOW THE INPUT VARIABLE EXAMPLES
+kbl(xxd, booktabs=T, digits=3, escape=T, row.names=F,
+    col.names=c("DMU","Beta", "Sigma", "Debt To Equity","Price to Book"),
+    caption= 'Data Source Extract Example - INPUTS ($x$)')  |>
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+### Snapshot View of the OUTPUT ($y$) Data Set
+
+The output variables used in the DEA model for this study use the Net
+Margin, Earnings Per Share, Return on Assets, Return on Equity, and the
+1-YR Trailing 12-month (TTM) Rate of Return for each stock to be
+evaluated. The table below shows a snapshot of the first six (6), and
+last six (6) rows of the output data set used.
+
+```{r, echo=FALSE}
+
+# SHOW THE OUTPUT VARIABLE EXAMPLES
+kbl(yyd, booktabs=T, digits=3, escape=T, row.names=F,
+    col.names=c("DMU","Net Margin","EPS", "Return on Assets", "Return on Equity",
+                "Rate of Return"),
+    caption= 'Data Source Extract Example - OUTPUTS ($y$)')  |>
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+\newpage
+
+# Empirical Findings
+
+Using a four (4) input, five (5) output input-oriented DEA model with
+historical stock market data is used for analysis in this study. A stock
+must be determined to be 100% efficient with a score of 1.0 as
+determined by the DEA model to be included within a portfolio. Two (2)
+portfolios are created for this study for analysis. One (1) using a
+constant returns to scale approach, and one (1) using a variable returns
+to scale approach.
+
+## Constant Returns to Scale (CRS)
+
+```{r omprMultDMUsCRS, echo=FALSE, message=FALSE}
+
+results.efficiency <- matrix(rep(-1.0, 1), nrow=ND, ncol=1)
+results.lambda     <- matrix(rep(-1.0, ND), nrow=ND,ncol=ND)
+
+for (k in 1:ND) {
+
+  results <- MIPModel()                                              |>
+    add_variable(Vlambda[j], j = 1:ND, type = "continuous", lb = 0) |>
+    add_variable(Vtheta, type = "continuous")                       |>
+    set_objective(Vtheta, "min")                                    |>
+    add_constraint(sum_expr(Vlambda[j] * xdata[j,i], j = 1:ND) 
+                   <= Vtheta * xdata[k,i], i = 1:NX)                |>
+    add_constraint(sum_expr(Vlambda[j] * ydata[j,r], j = 1:ND) 
+                   >= ydata[k,r], r = 1:NY)                         |>
+    solve_model(with_ROI(solver = "glpk")) 
+  
+#  print(c("DMU=",k,solver_status(results)))
+  
+  results.efficiency[k] <-  get_solution(results, Vtheta)       
+  results.lambda[k,] <- t(as.matrix(as.numeric(
+    get_solution(results, Vlambda[j])[,3] )))
+}
+
+```
+
+```{r showCRSresults, echo=FALSE}
+
+temp_CRS <- cbind(DMUnames,
+              results.efficiency)
+
+colnames(temp_CRS) <- c("DMU","Efficiency Score")
+
+# SLICE OFF ONLY THE STOCKS THAT HAVE AN EFFICIENCY OF ONE (1)
+only_efficient_stocks_CRS <- temp_CRS[temp_CRS[,2] >= 1.0,]
+
+# DISPLAY THE STOCKS THAT ARE EFFICIENT 
+kbl(only_efficient_stocks_CRS, booktabs=T, digits=3, escape=F, row.names=F,
+    col.names=c("DMU", "$\\theta^{CRS}$"),
+    caption= 'Input-Oriented CRS Envelopment Efficiency Results') |>
+  add_header_above(c(" " = 1, "Efficiency" = 1))  |>
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+
+
+```{r omprMultDMUsVRS, echo=FALSE}
+
+## Variable Returns to Scale (VRS)
+
+# 
+# res2_4.efficiency <- matrix(rep(-1.0, 1), nrow=ND, ncol=1)
+# res2_4.lambda     <- matrix(rep(-1.0, ND), nrow=ND,ncol=ND)
+# 
+# RTS<-"VRS"
+# for (k in 1:ND) {
+#   
+#   mod2_4 <- MIPModel()                                              |>
+#     add_variable(Vlambda[j], j = 1:ND, type = "continuous", 
+#                  lb = 0)                                            |>
+#     add_variable(Vtheta, type = "continuous")                       |>
+#     set_objective(Vtheta, "min")                                    |>
+#     add_constraint(sum_expr(Vlambda[j] * xdata[j,i], j = 1:ND) 
+#                    <= Vtheta * xdata[k,i], i = 1:NX)                |>
+#     add_constraint(sum_expr(Vlambda[j] * ydata[j,r], j = 1:ND) 
+#                    >= ydata[k,r], r = 1:NY) 
+# 
+#   if (RTS=="VRS") {
+#     mod2_4 <- add_constraint(mod2_4, 
+#                               sum_expr(Vlambda[j], j = 1:ND) == 1) 
+#     }
+# 
+# res2_4 <-   solve_model(mod2_4, with_ROI(solver = "glpk")) 
+#     
+# #  print(c("DMU=",k,solver_status(res2_4)))  
+# 
+#     res2_4.efficiency[k] <-  get_solution(res2_4, Vtheta)       
+#     res2_4.lambda[k,] <- t(as.matrix(as.numeric(
+#               get_solution(res2_4, Vlambda[j])[,3] )))
+# }
+
+```
+
+```{r outputVRSData, echo=FALSE}
+# 
+# temp_VRS <- cbind(DMUnames, res2_4.efficiency)
+# 
+# colnames(temp_VRS) <- c("DMU","Efficiency Score")
+# 
+# # SLICE OFF ONLY THE STOCKS THAT HAVE AN EFFICIENCY OF ONE (1)
+# only_efficient_stocks_VRS <- temp_VRS[temp_VRS[,2] >= 1.0,]
+# 
+# # DISPLAY THE STOCKS THAT ARE EFFICIENT
+# kbl(only_efficient_stocks_VRS, booktabs=T, digits=3, escape=F, row.names=F,
+#     col.names=c("DMU", "$\\theta^{VRS}$"),
+#     caption= 'Input-Oriented VRS Envelopment Efficiency Results') |>
+#   add_header_above(c(" " = 1, "Efficiency" = 1))  |>
+#   kable_styling(latex_options = "HOLD_position")
+
+```
+
+\newpage
+
+# Back-testing
+
+The initial input and output data for the DEA model used in this study
+was based on the 2015 fiscal year, ending December, 31, 2015. The
+initial investment period for back-testing starts on the first trading
+day of the year, January 4, 2016, after the end date of the DEA
+efficiency analysis dates. Only the stocks found as being efficient are
+included in the investment portfolio for return results examination.
+
+The results are examined to determine each stocks 1-year, 3-year, and
+5-year rate of return that occurs after December 31, 2015, through
+December 31, 2020.
+
+```{r rateOfReturns, echo=FALSE}
+
+# FUNCTION TO CALCULATE THE RATE OF RETURN BETWEEN TWO PRICES
+rateOfReturn <- function(endPrice, startPrice){
+    format(round(as.numeric((endPrice - startPrice) / startPrice), 2),nsmall=2)
+}
+
+# CALCULATE THE ONE YEAR RATE OF RETURN
+oneYRreturnRate <- rateOfReturn(backtestingPrices$oneYRprice, backtestingPrices$entryPrice)
+
+# CALCUALTE THE THREE YEAR RATE OF RETURN
+threeYRreturnRate <- rateOfReturn(backtestingPrices$threeYRprice, backtestingPrices$entryPrice)
+
+# CALCULATE THE FIVE YEAR RATE OF RETURN
+fiveYRreturnRate <- rateOfReturn(backtestingPrices$fiveYRprice, backtestingPrices$entryPrice)
+
+# BIND EACH CALCULATED RATE OF CHANGE AS COLUMNS
+returnResults <- cbind(DMUnames, oneYRreturnRate, threeYRreturnRate, 
+                       fiveYRreturnRate)
+
+# SET THE COLUMN NAMES OF THE RATE OF RETURN RESULTS
+colnames(returnResults) <- c("DMU","OneYR", "ThreeYR", "FiveYR")
+
+# MERGE THE EFFICIENT DMU DATAFRAME WITH THE RATE OF RETURN RESULT DATAFRAME
+# NOTE: INNER JOIN BY DMU NAME
+df_all = merge(x = only_efficient_stocks_CRS, y = returnResults, by = "DMU")
+
+report_caption <- 'CRS Rate of Returns - Investment Purchase Date: 2016-01-04'
+
+# OUTPUT THE DMU, EFFICENCY SCORE, AND RATE OF RETURNS
+kbl(df_all, align = "lcrrr", booktabs=T, digits=3, escape=F, row.names=F,
+    col.names=c("DMU", "$\\theta^{CRS}$", "1 YR", "3 YR", "5 YR"),
+    caption= 'CRS Rate of Returns') |>
+  add_header_above(c(" " = 1, "Efficiency" = 1, "Annual Return Rates" = 3))  |>
+  kable_styling(latex_options = "HOLD_position")
+
+# CALCULATE THE AVERAGE RETURN RATE BY YEAR RANGES
+#average1YR <- format(mean(as.numeric(oneYRreturnRate)), digits=2,
+#                     nsmall=2)
+average1YR <- format(mean(as.numeric(df_all$OneYR)), digits=2, nsmall=2)
+#average3YR <- format(mean(as.numeric(threeYRreturnRate)), digits=2,
+#                     nsmall=2)
+average3YR <- format(mean(as.numeric(df_all$ThreeYR)), digits=2,
+                     nsmall=2)
+#average5YR <- format(mean(as.numeric(fiveYRreturnRate)), digits=2,
+#                     nsmall=2)
+average5YR <- format(mean(as.numeric(df_all$FiveYR)), digits=2,
+                     nsmall=2)
+
+
+CRS_average_text <- 'CRS Portfolio'
+CRS_averages <- cbind(CRS_average_text, average1YR, average3YR, average5YR)
+
+kbl(CRS_averages, align = "lrrr", booktabs=T, digits=3, escape=T, row.names=F,
+    col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+    caption= 'CRS Portfolio Average Rate of Returns') |>
+  add_header_above(c(" " = 1, "Average Return Rates" = 3))  |>
+  kable_styling(latex_options = "HOLD_position")
+
+# OLD PRE-CACLULATED DATA FILES - REMOVE AFTER AUTOMATION DONE
+VRStesting <- read.csv("Data/MySQL/Backtesting-VRS-Data-Results.csv")
+CRStesting <- read.csv("Data/MySQL/Backtesting-CRS-Data-Results.csv")
+sp500testing <- read.csv("Data/MySQL/Backtesting-SP500-Data-Results.csv")
+
+```
+
+## S&P 500 Return Rates - Minimum Acceptable Rate of Return (MARR)
+
+The S&P 500 rate of return calculated over the same 5 year period for
+the evaluation of back-testing results for this study is used as the
+minimum benchmark to beat for efficient stocks selected by the DEA
+model. The return rates for this market index is a common value that is
+used for the minimum acceptable rate of return (MARR) in financial
+analysis decisions for investing, project portfolio selection, and other
+business purposes.
+
+As shown in the table below, the stock portfolios must exceed 11% for a
+one year analysis, 25% for two years, and 87% for five years to be
+considered as outperforming the market.
+
+```{r, echo=FALSE}
+
+kbl(sp500testing, booktabs=T, digits=3, escape=T, row.names=F,
+    col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+    caption= 'SP 500 Rate of Returns - Market Benchmark (MARR)') |>
+  add_header_above(c(" " = 1, "Annual Return Rate" = 3))  |>
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+### Market Out-performance Definition
+
+This study requires that the following cases must be true for a stock
+portfolio to be rated as outperforming the market. The average return of
+the efficient stock portfolio provided by the DEA model must exceed the
+S&P 500 returns calculated within the same time frames.
+
+\vspace{12pt}
+
+**Constant Returns to Scale MARR**
+
+-   1-YR AVG CRS Portfolio Return \> MARR 1-YR
+-   3-YR AVG CRS Portfolio Return \> MARR 3-YR
+-   5-YR AVG CRS Portfolio Return \> MARR 5-YR
+
+## CRS Back-testing Results
+
+```{r, echo=FALSE}
+
+# kbl(CRStesting, booktabs=T, digits=3, escape=T, row.names=F,
+#     col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+#     caption= 'CRS Rate of Returns') |>
+#   add_header_above(c(" " = 1, "Annual Return Rate" = 3))  |>
+#   kable_styling(latex_options = "HOLD_position")
+# 
+# CRS_average_text <- 'CRS Avg'
+# CRS_average_1 <- format(mean(CRStesting$X1YR), digits=2, nsmall=2)
+# CRS_average_3 <- format(mean(CRStesting$X3YR), digits=2, nsmall=2)
+# CRS_average_5 <- format(mean(CRStesting$X5YR), digits=2, nsmall=2)
+# 
+# CRS_averages <- cbind(CRS_average_text, CRS_average_1, CRS_average_3, CRS_average_5)
+# 
+# kbl(CRS_averages, booktabs=T, digits=3, escape=T, row.names=F,
+#     col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+#     caption= 'CRS Average Rate of Returns') |>
+#   add_header_above(c(" " = 1, "Average Return Rate" = 3))  |>
+#   kable_styling(latex_options = "HOLD_position")
+
+```
+
+The average 1-YR return rate for the CRS portfolio is 28%, the 3-YR
+average return rate is 74%, and the 5-YR average return rate is
+398%.
+
+The back-testing results for the DEA CRS stock portfolio show that in
+this case, the efficiency model provides a better than market return.
+Specifically, all of the CRS portfolio average rates of return are
+greater than the S&P 500 index rates of return over the same time
+periods [7, 8].
+
+
+
+```{r, echo=FALSE}
+
+## VRS Back-testing Results
+
+# kbl(VRStesting, booktabs=T, digits=3, escape=T, row.names=F,
+#    col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+#     caption= 'VRS Rate of Returns') |>
+#   add_header_above(c(" " = 1, "Annual Return Rate" = 3))  |>
+#   kable_styling(latex_options = "HOLD_position")
+# 
+# VRS_average_text <- 'VRS Avg'
+# VRS_average_1 <- format(mean(VRStesting$X1YR), digits=2, nsmall=2)
+# VRS_average_3 <- format(mean(VRStesting$X3YR), digits=2, nsmall=2)
+# VRS_average_5 <- format(mean(VRStesting$X5YR), digits=2, nsmall=2)
+# 
+# VRS_averages <- cbind(VRS_average_text, VRS_average_1, VRS_average_3, VRS_average_5)
+# 
+# kbl(VRS_averages, booktabs=T, digits=3, escape=T, row.names=F,
+#     col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+#     caption= 'VRS Average Rate of Returns') |>
+#   add_header_above(c(" " = 1, "Average Return Rate" = 3))  |>
+#   kable_styling(latex_options = "HOLD_position")
+
+
+# The average 1-YR return rate for the VRS portfolio is 20%, the 3-YR
+# average return rate is 57%, and the 5-YR average return rate is 307%.
+# The back-testing results for the DEA VRS stock portfolio show that this
+# efficiency model also provides a better than market return.
+# Specifically, all of the VRS portfolio average rates of return are
+# greater than the S&P 500 index rates of return over the same time
+# periods [7, 8].
+
+```
+
+
+
+\newpage
+
+# Conclusion
+
+The results of this study has shown that DEA can be used as an effective tool 
+to identify stocks to include in building a positive return portfolio that 
+outperforms the market. These results suggest that the inputs and outputs of
+the models provided in the prior literature do recommend efficient DMUs that
+can be used to obtain higher than typical market returns.
+
+It should be noted however, that not every stock selected for inclusion into a
+portfolio provided a positive gain individually. This suggests that simply
+selecting a stock as being efficient is not necessarily equivalent to obtaining
+a positive return rate. The study does show that diversification within the sector
+being studied may compensate for poorly performing equities. In addition, this
+study does not investigate any underlying hardships, news, key staff turnover 
+issues, or other events the may have impacted the financial or technical 
+results provided by any selected firms after the initial efficiency calculations
+had been completed.
+
+Both, the CRS and VRS methodologies performed better in providing higher returns 
+than the S\&P 500 market index. When comparing the empirical results of the CRS 
+vs. VRS models, the CRS model performed best in this case.
+
+```{r, echo=FALSE}
+
+SP500_average_text <- 'S&P 500'
+
+SP500_averages <- cbind(SP500_average_text, sp500testing$X1.YR, 
+                        sp500testing$X3.YR, sp500testing$X5.YR)
+
+finalReturnAvgs <- rbind(SP500_averages, CRS_averages)
+
+kbl(finalReturnAvgs, booktabs=T, digits=3, escape=T, row.names=F,
+    col.names=c(" ", "1 YR", "3 YR", "5 YR"),
+    caption= 'Rate of Returns Results Comparision') |>
+  add_header_above(c(" " = 1, "Annual Return Rate" = 3))  |>
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+In reviewing the above table, quantitatively, these results show:
+
+For a one (1) year return, The CRS model provides a 17% higher return on average 
+than the S\&P 500, and 8% higher than average with the VRS model. The VRS model 
+has a return rate that is 9% higher on average than the S\&P 500, and 8% lower 
+than the CRS model.
+
+For a three (3) year return, The CRS model provides a 49% higher return on average 
+than the S\&P 500, and 17% higher than average with the VRS model. The VRS model 
+has a return rate that is 32% higher on average than the S\&P 500, and 17% lower 
+than the CRS model.
+
+For a five (5) year return, The CRS model provides a 311% higher return on average 
+than the S\&P 500, and 91% higher than average with the VRS model. The VRS model 
+has a return rate that is 220% higher on average than the S\&P 500, and 91% lower 
+than the CRS model.
+
+\vspace{12pt}
+
+**Future Work**
+
+Additional work can be done to build from this study, which include:
+
+- Using different stock market sectors for portfolio analysis, and comparison.
+- Consider business cycles to determine best investment portfolio sector seasons.
+- Use different time frames other than annual returns, such as quarterly, or monthly.
+- Consider a qualitative approach to sourcing stocks, such as B-corps, or other
+environmental or socially focused conceptual areas.
+- Perform an inverse analysis to identify stocks to place into a short-sale based
+portfolio.
+- Consider using cross-efficiency, multiple optima methods for stock selections.
+- Consider implementing multiple LP solvers and compare the results for accuracy.
+
+\newpage
+
+# References
+
+[1] Hayes, Adam. “How Does the Stock Market Work?” Finance. Investopedia. Accessed July 15, 2023. https://www.investopedia.com/articles/investing/082614/how-stock-market-works.asp.
+
+[2] Anderson, Timothy R. “Data Envelopment Analysis Using R.” Portland State University, n.d.
+
+[3] Folger, Jean. “Investing vs. Trading: What’s the Difference?” Finance. Investopedia. Accessed July 9, 2023. https://www.investopedia.com/ask/answers/12/difference-investing-trading.asp.
+
+[4] Majaski, Christina. “Understanding Fundamental vs. Technical Analysis.” Finance. Investopedia. Accessed July 16, 2023. https://www.investopedia.com/ask/answers/difference-between-fundamental-and-technical-analysis/.
+
+[5] Elmerraji, Jonas. “Analyze Investments Quickly With Ratios.” Finance. Guide to Financial Ratios. Accessed July 28, 2023. https://www.investopedia.com/articles/stocks/06/ratios.asp.
+
+[6] Arasu, B. Senthil, Desti Kannaiah, Nancy Christina J., and Malik Shahzad Shabbir. “Selection of Variables in Data Envelopment Analysis for Evaluation of Stock Performance.” Management and Labour Studies 46, no. 3 (August 2021): 337–53. https://doi.org/10.1177/0258042X211002511.
+
+[7] Chen, James. “Backtesting: Definition, How It Works, and Downsides.” Finance. Investopedia. Accessed August 3, 2023. https://www.investopedia.com/terms/b/backtesting.asp.
+
+[8] Beers, Brian. “Why Do Investors Use the S&P 500 as a Benchmark?” Finance. Investopedia. Accessed August 3, 2023. https://www.investopedia.com/ask/answers/041315/what-are-pros-and-cons-using-sp-500-benchmark.asp.
+
+[9] Chen, Hong-Yi, Cheng-Few Lee, and Wei K. Shih. “Technical, Fundamental, and Combined Information for Separating Winners from Losers.” Pacific-Basin Finance Journal 39 (September 2016): 224–42. https://doi.org/10.1016/j.pacfin.2016.06.008.
+
+[10] Chen, Hsin‐Hung. “Stock Selection Using Data Envelopment Analysis.” Industrial Management & Data Systems 108, no. 9 (October 31, 2008): 1255–68. https://doi.org/10.1108/02635570810914928.
+
+
+[11] Lioudis, Nick. “How to Calculate Beta in Excel.” How to Calculate Beta in Excel. Accessed July 28, 2023. https://www.investopedia.com/articles/investing/102115/what-beta-and-how-calculate-beta-excel.asp.
+
+[12] Jim, Zehad. “How to Calculate Sigma in Excel (3 Effective Methods).” exceldemy. Accessed July 28, 2023. https://www.exceldemy.com/how-to-calculate-sigma-in-excel/.
+
+[13] Fernando, Jason. “Debt-to-Equity (D/E) Ratio Formula and How to Interpret It.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/terms/d/debtequityratio.asp.
+
+[14] McClure, Ben. “Using the Price-To-Book (P/B) Ratio to Evaluate Companies.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/investing/using-price-to-book-ratio-evaluate-companies/.
+
+[15] Fernando, Jason. “Earnings Per Share (EPS): What It Means and How to Calculate It.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/terms/e/eps.asp.
+
+[16] Hargrave, Marshall. “Return on Assets (ROA): Formula and ‘Good’ ROA Defined.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/terms/r/returnonassets.asp.
+
+[17] Fernando, Jason. “Return on Equity (ROE) Calculation and What It Means.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/terms/r/returnonequity.asp.
+
+[18] Murphy, Chris. “What Is Net Profit Margin? Formula for Calculation and Examples.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/terms/n/net_margin.asp.
+
+[19] Hayes, Adam. “Trailing 12 Months (TTM): Definition, Calculation, and How It’s Used.” Finance. Investopedia. Accessed August 5, 2023. https://www.investopedia.com/terms/t/ttm.asp.
+
+\newpage
+
+# Appendix
+
+
+
+**FULL CRS EFFICIENCY RESULTS**
+
+```{r, echo=FALSE}
+
+# SHOW ALL CRS EFFICIENCY SCORES
+#kable(temp_CRS, format="simple")
+
+kbl(temp_CRS, booktabs=T, digits=3, escape=F, row.names=F, longtable=T,
+    col.names=c("DMU", "$\\theta^{CRS}$"),
+    caption= 'All CRS Efficiency Scores')  |>
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+**FULL VRS EFFICIENCY RESULTS**
+
+```{r, echo=FALSE}
+
+# SHOW ALL VRS EFFICIENCY SCORES
+#kable(temp_VRS, format="simple")
+
+```
+
+**SOURCE DATA FOR FISCAL YEAR 2015**
+
+```{r, results='asis', echo=FALSE}
+
+# FULL SOURCE DATA FILE FOR FY 2015
+kable(df, format="simple")
+
+```
+
+**S&P 500 (SPX) SOURCE DATA FILE FOR RELATIVE RETURN ANALYSIS
+(2015-2020)**
+
+```{r, results='asis', echo=FALSE}
+
+# FULL SOURCE DATA FILE FOR FY 2015
+kable(sp500, format="simple")
+
+```

@@ -4,63 +4,68 @@ REST API DOCS: https://site.financialmodelingprep.com/developer/docs
 8,676 US STOCK SYMBOLS SOURCED WHERE ALL ROWS CONTAIN COMPLETE FINANCIAL AND TECHNICAL DATA
 8,640 US STOCK SYMBOLS WITH COMPLETE FINANCIAL, TECHNICAL, AND PRICING DATA
 
-FINANCIAL MODELING PREP - DATA SOURCE FEED
-
 REST API END POINTS (JSON):
 
 COMPANY OUTLOOK
-Provides all financial data
+	
+	Provides all financial data
 
-https://financialmodelingprep.com/api/v4/company-outlook?symbol=AAPL
+	https://financialmodelingprep.com/api/v4/company-outlook?symbol=AAPL
 
 
 COMPANY PROFILE
-A summary of important company information, including price, beta, market capitalization,description, headquarters, sector, industry, and more
+	
+	A summary of important company information, including price, beta, market capitalization,description, headquarters, sector, industry, and more
 
-https://financialmodelingprep.com/api/v3/profile/AAPL
+	https://financialmodelingprep.com/api/v3/profile/AAPL
 
 
 DAILY CHART - HISTORICAL PRICES
 
-symbol=string
-from=date	2023-10-11
-to=date		2023-01-09
-https://financialmodelingprep.com/api/v3/historical-price-full/AAPL
+Params:
+	symbol=string
+	from=date	2023-10-11
+	to=date		2023-01-09
+
+	https://financialmodelingprep.com/api/v3/historical-price-full/AAPL
 
 
 RATIOS
 
-symbol=string
-period=annual, quarter
-limit=number
+Params:
+	symbol=string
+	period=annual, quarter
+	limit=number
 
-https://financialmodelingprep.com/api/v3/ratios/AAPL?period=quarter
+	https://financialmodelingprep.com/api/v3/ratios/AAPL?period=quarter
 
 
 ECONOMIC INDICATORS
 
-name=string	GDP, Real GDP, Unemployment rate, more...
-from=date	2019-10-10
-to=date		2021-11-10
+Params:
+	name=string	GDP, Real GDP, Unemployment rate, more...
+	from=date	2019-10-10
+	to=date		2021-11-10
 
-https://financialmodelingprep.com/api/v4/economic?name=GDP
+	https://financialmodelingprep.com/api/v4/economic?name=GDP
 
 
 SECTOR PERFORMANCE
 
 Current:
-https://financialmodelingprep.com/api/v3/sector-performance
+	https://financialmodelingprep.com/api/v3/sector-performance
 
 Historical:
-https://financialmodelingprep.com/api/v3/historical-sectors-performance
+	https://financialmodelingprep.com/api/v3/historical-sectors-performance
 
 
 ENVIRONMENTAL SOCIAL GOVERNANCE
 environmental, social, governance scores
 
-year=int	2022
+Param: 
+	year=int
 
-https://financialmodelingprep.com/api/v4/esg-environmental-social-governance-sector-benchmark?year=2022
+	https://financialmodelingprep.com/api/v4/esg-environmental-social-governance-sector-benchmark?year=2022
 
 
 11 SECTORS:
@@ -75,170 +80,6 @@ Consumer Cyclical
 Technology
 Real Estate
 Utilities
-
-162 INDUSTRIES:
-Advertising Agencies
-Aerospace & Defense
-Agricultural Inputs
-Airlines
-Airports & Air Services
-Aluminum
-Apparel Manufacturing
-Apparel Retail
-Application Software
-Asset Management
-Auto & Truck Dealerships
-Auto Manufacturers
-Auto Parts
-Banks
-Banks—Diversified
-Banks—Regional
-Beverages—Brewers
-Beverages—Non-Alcoholic
-Beverages—Wineries & Distilleries
-Biotechnology
-Broadcasting
-Building Materials
-Building Materials Wholesale
-Building Products & Equipment
-Business Equipment & Supplies
-Business Services
-Capital Markets
-CATV Systems
-Chemicals
-Closed-End Fund - Equity
-Coking Coal
-Communication Equipment
-Communication Services
-Computer Hardware
-Confectioners
-Conglomerates
-Consulting Services
-Consumer Electronics
-Copper
-Credit Services
-Department Stores
-Diagnostics & Research
-Discount Stores
-Diversified Communication Services
-Drug Manufacturers—General
-Drug Manufacturers—Specialty & Generic
-Education & Training Services
-Electrical Equipment & Parts
-Electronic Components
-Electronic Gaming & Multimedia
-Electronics & Computer Distribution
-Engineering & Construction
-Entertainment
-Farm & Heavy Construction Machinery
-Farm Products
-Financial Conglomerates
-Financial Data & Stock Exchanges
-Food Distribution
-Footwear & Accessories
-Furnishings, Fixtures & Appliances
-Gambling
-Gold
-Grocery Stores
-Health Information Services
-Healthcare Plans
-Home Improvement Retail
-Homebuilding & Construction
-Household & Personal Products
-Independent Oil & Gas
-Industrial Distribution
-Industrial Metals & Minerals
-Information Technology Services
-Infrastructure Operations
-Insurance Brokers
-Insurance Specialty
-Insurance—Diversified
-Insurance—Life
-Insurance—Property & Casualty
-Insurance—Reinsurance
-Insurance—Specialty
-Integrated Freight & Logistics
-Internet Content & Information
-Internet Retail
-Leisure
-Lodging
-Lumber & Wood Production
-Luxury Goods
-Marine Shipping
-Marketing Services
-Medical Care Facilities
-Medical Devices
-Medical Distribution
-Medical Instruments & Supplies
-Metal Fabrication
-Mortgage Finance
-Oil & Gas Drilling
-Oil & Gas E&P
-Oil & Gas Equipment & Services
-Oil & Gas Integrated
-Oil & Gas Midstream
-Oil & Gas Refining & Marketing
-Other Industrial Metals & Mining
-Other Precious Metals & Mining
-Packaged Foods
-Packaging & Containers
-Paper & Paper Products
-Personal Services
-Pharmaceutical Retailers
-Pollution & Treatment Controls
-Publishing
-Railroads
-Real Estate Services
-Real Estate—Development
-Real Estate—Diversified
-Recreational Vehicles
-REIT—Diversified
-REIT—Healthcare Facilities
-REIT—Hotel & Motel
-REIT—Industrial
-REIT—Mortgage
-REIT—Office
-REIT—Residential
-REIT—Retail
-REIT—Specialty
-Rental & Leasing Services
-Residential Construction
-Resorts & Casinos
-Restaurants
-Retail Apparel & Specialty
-Scientific & Technical Instruments
-Security & Protection Services
-Semiconductor Equipment & Materials
-Semiconductors
-Shell Companies
-Silver
-Software—Application
-Software—Infrastructure
-Solar
-Specialty Business Services
-Specialty Chemicals
-Specialty Industrial Machinery
-Specialty Retail
-Staffing & Employment Services
-Steel
-Telecom Services
-Telecom Services - Foreign
-Textile Manufacturing
-Thermal Coal
-Tobacco
-Tools & Accessories
-Travel Services
-Trucking
-Uranium
-Utilities Diversified
-Utilities Regulated
-Utilities—Diversified
-Utilities—Independent Power Producers
-Utilities—Regulated Electric
-Utilities—Regulated Gas
-Utilities—Regulated Water
-Utilities—Renewable
-Waste Management
 
 
 INITIAL MODELING CONCEPTS:
@@ -305,23 +146,25 @@ Low price-to-book ratio = value stocks <- WANT THIS
 High price-to-book ratio = growth stocks
 
 
-###################################################################
-# ORIGINAL PROJECT README CONTENTS
-###################################################################
-
-
-4. Calculated Beta and Sigma values and placed into new database table
-    A. Project/beta_calculation.py for calculation and table insert
-    B. MySQL beta_sigma table contains values for timeframe provided in the beta_calc script
-
-5. Can update values for Beta, Sigma, investment date of portfolio, 1yr, 3yr, 5yr prices for rate of return calcs
-    A. Project/update_beta_calculations.py
-
-
 DATA USAGE:
 
 Rate of Return % = [(Current Value – Initial Value) / Initial Value] x 100
 
+BETA:
+
+The beta value is the rate of return for the stock divided by the rate of return of the comparision market
+over the same returns holding period, or can be calculated using a regression method using the value of 
+the slope coefficient for the predictor variable (x):
+
+	B = Stock Rate of Return / Market Rate of Return
+	--OR--
+	B = Slope = X coefficient from regression calculation
+
+SIGMA (sd):
+
+The sigma value is the standard deviation (sd) in price over a given time period. In this case,
+the close price of a stock is used for the calculation over the same holding period used for
+the beta calcuation.
 
 DEA MODEL INPUTS:
 
@@ -331,6 +174,8 @@ WHERE p.Symbol = b.Symbol AND p.Symbol = f.Symbol
 AND p.date > '2014-12-31' AND p.date < '2016-01-01'
 AND f.fiscalYear=2015;
 
+
+SQL
 DEA MODEL OUTPUTS:
 
 SELECT DISTINCT f.symbol as 'DMU', f.netIncomeToRevenue AS 'O-NetMargin', 
@@ -359,11 +204,4 @@ AND f.returnOnEquity IS NOT NULL
 AND f.debtToEquity != 0
 AND s.Sector = 'Technology';
 
-/* 
-SECTORS AVAILABLE FOR USE (ex: sector='Technology'):
-      'Technology', 'Basic Materials', 'Consumer Discretionary',
-       'Consumer Staples', 'Energy', 'Finance', 'Health Care',
-       'Industrials', 'Real Estate', Telecommunications', 
-       'Utilities'
-*/
 

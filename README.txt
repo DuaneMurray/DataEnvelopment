@@ -1,8 +1,18 @@
 DATA SOURCE: FINANCIAL MODELING PREP (https://site.financialmodelingprep.com/)
 REST API DOCS: https://site.financialmodelingprep.com/developer/docs
 
-8,676 US STOCK SYMBOLS SOURCED WHERE ALL ROWS CONTAIN COMPLETE FINANCIAL AND TECHNICAL DATA
-8,640 US STOCK SYMBOLS WITH COMPLETE FINANCIAL, TECHNICAL, AND PRICING DATA
+8,676 US TRADED STOCK SYMBOLS SOURCED WHERE ALL ROWS CONTAIN COMPLETE FINANCIAL AND TECHNICAL DATA
+8,640 US TRADED STOCK SYMBOLS WITH COMPLETE FINANCIAL, TECHNICAL, AND PRICING DATA
+
+ALL NON-FINANCIAL FIRMS LISTED ON THE NYSE, AMEX, and NASDAQ:
+Exclude:
+	A. Financial Firms - uses debt as an asset/receivable instead of a liability
+	C. Closed-end funds
+	D. Real Estate Investment Trusts (REIT)
+	E. American Depository Receipts (ADRs)
+	F. Warrants (W or -W at end of symbol)
+	G. Firms with Negative Book-to-Market Values
+
 
 REST API END POINTS (JSON):
 
@@ -126,22 +136,6 @@ A market-to-book ratio above 1 means that the company’s stock is overvalued. A
 
 ROA = Profitability-related fundamental
 
-ALL NON-FINANCIAL FIRMS LISTED ON THE NYSE, AMEX, and NASDAQ:
-1. Full return and price to book value data for the time frame
-2. Exclude:
-	A. Financial Firms
-	B. Foreign Companies
-	C. closed-end funds
-	D. Real Estate Investment Trusts (REIT)
-	E. American Depository Receipts (ADRs)
-	F. Rirms with prices less than $5
-	G. Firms with Negative Book-to-Market Values
-3. Need:
-	A. Returns
-	B. Prices
-	C. Trading Volume
-	D. Financial Data
-
 Low price-to-book ratio = value stocks <- WANT THIS
 High price-to-book ratio = growth stocks
 
@@ -154,7 +148,7 @@ BETA:
 
 The beta value is the rate of return for the stock divided by the rate of return of the comparision market
 over the same returns holding period, or can be calculated using a regression method using the value of 
-the slope coefficient for the predictor variable (x):
+the slope coefficient for the predictor variable (x). Is scaled as a percentage:
 
 	B = Stock Rate of Return / Market Rate of Return
 	--OR--

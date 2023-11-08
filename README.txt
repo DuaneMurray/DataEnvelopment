@@ -151,8 +151,10 @@ over the same returns holding period, or can be calculated using a regression me
 the slope coefficient for the predictor variable (x). Is scaled as a percentage:
 
 	B = Stock Rate of Return / Market Rate of Return
+	(https://www.wikihow.com/Calculate-Beta)
 	--OR--
-	B = Slope = X coefficient from regression calculation
+	B = Slope = X coefficient from linear regression calculation
+
 
 SIGMA (sd):
 

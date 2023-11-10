@@ -73,7 +73,7 @@ end_date = ''
 #stock_list = pd.read_sql('SELECT DISTINCT symbol FROM company_data_set WHERE sector="Consumer Cyclical" ORDER BY symbol', engine1)
 #stock_list = pd.read_sql('SELECT DISTINCT symbol FROM company_data_set WHERE sector="Technology" ORDER BY symbol', engine1)
 #stock_list = pd.read_sql('SELECT DISTINCT symbol FROM company_data_set WHERE sector="Real Estate" ORDER BY symbol', engine1)
-#stock_list = pd.read_sql('SELECT DISTINCT symbol FROM company_data_set WHERE sector="Utilities" ORDER BY symbol', engine1)
+stock_list = pd.read_sql('SELECT DISTINCT symbol FROM company_data_set WHERE sector="Utilities" ORDER BY symbol', engine1)
 
 ##########
 #sys.exit("Breakpoint -- sys.exit()")

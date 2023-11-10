@@ -154,6 +154,7 @@ the slope coefficient for the predictor variable (x). Is scaled as a percentage:
 	(https://www.wikihow.com/Calculate-Beta)
 	--OR--
 	B = Slope = X coefficient from linear regression calculation
+	(https://plainenglish.io/blog/measure-stock-volatility-using-betas-in-python-d6411612e7bd)
 
 
 SIGMA (sd):

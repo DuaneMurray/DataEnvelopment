@@ -1,5 +1,5 @@
-#SELECT * FROM stockdata.company_ratios
-#WHERE symbol = '';
+SELECT * FROM stockdata.company_ratios
+WHERE symbol = '';
 
 #SELECT COUNT(*) FROM stockdata.company_ratios;
 
@@ -23,22 +23,22 @@
 #################################################
 # MATCHING COMPANY DETAIL & COMPANY RATIO ROWS
 #################################################
-SELECT 
-    company_details.symbol, company_details.exchangeShortName, 
-    company_details.sector, company_details.industry
-FROM
-    company_details
-WHERE
-    symbol NOT LIKE "%-%"
+#SELECT 
+#    company_details.symbol, company_details.exchangeShortName, 
+#    company_details.sector, company_details.industry
+#FROM
+#    company_details
+#WHERE
+#    symbol NOT LIKE "%-%"
 	/*
     #AND LENGTH(company_details.symbol) < 5
 	#AND company_details.exchangeShortName = 'AMEX'
 	#AND sector = 'Technology'
     */
-    AND sector IS NOT NULL
-    AND sector != ''
-    AND company_details.symbol IN (
-		SELECT company_ratios.symbol
-        FROM company_ratios
-        )
-	order by symbol ASC
+ #   AND sector IS NOT NULL
+ #   AND sector != ''
+ #   AND company_details.symbol IN (
+#		SELECT company_ratios.symbol
+#        FROM company_ratios
+#        )
+#	order by symbol ASC

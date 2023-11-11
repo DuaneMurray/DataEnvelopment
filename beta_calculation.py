@@ -9,11 +9,6 @@ import datetime
 from datetime import datetime
 import mysql.connector
 
-#import os
-#import math
-#from glob import glob
-#import requests
-#import shutil
 
 # CREATE A CONNECTION TO THE MYSQL DATABASE
 connection = mysql.connector.connect(host='localhost',
@@ -68,7 +63,10 @@ sector_list = ["Financial Services", "Basic Materials", "Consumer Defensive", "I
 #year = '2017'
 #year = '2018'
 #year = '2019'
-year = '2020'
+#year = '2020'
+#year = '2021'
+#year = '2022'
+year = '2023'  # FULL YEAR DATA NOT COMPLETE AS OF 11/11/23
 
 month_start_dates = [year + '-01-01', year + '-02-01', year + '-03-01', year + '-04-01', year + '-05-01',
                      year + '-06-01', year + '-07-01', year + '-08-01', year + '-09-01', year + '-10-01',

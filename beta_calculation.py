@@ -43,7 +43,7 @@ market = '^GSPC'     # S&P 500
 ######################################################################
 # BUILD A QUERY TO THE DATABASE FOR SECURITIES 
 # TO INCLUDE IN THE DEA BENCHMARK ANALYSIS STUDY SET:
-# ("SELECT DISTINCT Sector FROM stock.securities;")
+# ("SELECT DISTINCT sector FROM stockdata.company_details;")
 
 # LIST OF SECTORS TO PROCESS
 sector_list = ["Financial Services", "Basic Materials", "Consumer Defensive", "Industrials", 
@@ -66,7 +66,7 @@ sector_list = ["Financial Services", "Basic Materials", "Consumer Defensive", "I
 #year = '2020'
 #year = '2021'
 #year = '2022'
-year = '2023'  # FULL YEAR DATA NOT COMPLETE AS OF 11/11/23
+year = '2023'  # NOT INCLUDED YET -- FULL YEAR DATA NOT COMPLETE AS OF 11/11/23
 
 month_start_dates = [year + '-01-01', year + '-02-01', year + '-03-01', year + '-04-01', year + '-05-01',
                      year + '-06-01', year + '-07-01', year + '-08-01', year + '-09-01', year + '-10-01',
@@ -172,7 +172,7 @@ for date_start in month_start_dates:
                       # CREATE ARRAYS FOR x AND y VARIABLES FOR THE REGRESSION MODEL
                       # CALCUATE THE BETA VALUE FOR THE GIVEN STOCK AND MARKET BENCHMARK
                       x = np.array(stock_price_change).reshape((-1,1)) # STOCK SYMBOL PERCENT CHANGE
-                      y = np.array(market_price_change) # S&P 500 MARKET PERCENT CHANGE
+                      y = np.array(market_price_change) # COMPARISON MARKET PERCENT CHANGE
                       model = LinearRegression().fit(x, y) # SOLVE THE MODEL
                       beta = model.coef_[0]  # THE SLOPE VALUE = BETA VALUE
 

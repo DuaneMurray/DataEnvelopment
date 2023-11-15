@@ -31,7 +31,7 @@ api_token = '&apikey=806a23dbb33fc1793a282fde9990c045' # ADD TO END OF REST API 
 base_url = 'https://financialmodelingprep.com/api/v3/ratios/'  # ADD SYMBOL ON END OF URL
 
 #########
-period = 'annual'              # OPTIONS: quarter, annual
+period = 'quarter'              # OPTIONS: quarter, annual
 limit = '140'                   # MAX NUMBER OF PERIODS TO RETURN: MAX = 140
 ##########
 

@@ -1,9 +1,5 @@
-# COMPANY OUTLOOK
-# Provides combined JSON for all financial data including company info:
-# https://financialmodelingprep.com/api/v4/company-outlook?symbol=AAPL
-#
 # ** COMPANY PROFILE **
-# A summary of important company information, including price, beta, market capitalization,
+# A summary of important company information, including current price, market capitalization,
 # description, headquarters, sector, industry, and more
 #
 # API: https://financialmodelingprep.com/api/v3/profile/AAPL
@@ -42,8 +38,6 @@ stock_list = pd.read_sql('SELECT symbol FROM exchange_symbols WHERE exchange="NA
 
 # LOOP THROUGH THE LIST OF SYMBOLS INPUT FROM THE DEFINED stock_list FILE
 for x in stock_list['symbol']:
-  #print('GET: ' + x)
-  # GET FINANCIAL RATIOS FOR FUNDAMENTAL ANALYSIS - QUICK RATIO, ETC
   
   resp = requests.get(base_url + x + api_token)
   resp.raise_for_status()
@@ -51,5 +45,4 @@ for x in stock_list['symbol']:
   df = pd.DataFrame(resp.json()) # PUT THE JSON RESULTS INTO A DATAFRAME
 
   df.to_sql(name='company_details', con=engine2, chunksize=5000, if_exists='append') # ADD DATA TO EXISTING TABLE
-  
-  #print('SQL: ' + x)
+

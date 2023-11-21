@@ -27,17 +27,17 @@ editor_options:
 # RUN THIS CHUNK TO GENERATE A BOOKDOWN PDF DOC, OTHERWISE, KNIT TO PDF
 knitr::opts_chunk$set(echo = TRUE)
 library(tinytex)
-library(bookdown);
-library(rmarkdown);
-library(kableExtra);
+library(bookdown)
+library(rmarkdown)
+library(kableExtra)
 rmarkdown::render("A-Graph-Chart-Playground.Rmd", "pdf_book")
 
 ```
 
 ```{r loadingPackages, include=FALSE, message=FALSE, warning=FALSE}
 library(tinytex)
-library(bookdown);
-library(rmarkdown);
+library(bookdown)
+library(rmarkdown)
 
 library(kableExtra, quietly=TRUE)
 library(ROI, quietly=TRUE)             
@@ -76,7 +76,7 @@ options(digits = 2)
 # Utilities		            146
 #################################
 
-SECTOR <- 'Energy'
+SECTOR <- 'Utilities'
 FiscalYear <- '2017'
 Quarter <- 'Q3'
 MonthName <- 'September'
@@ -156,6 +156,8 @@ SECTOR, MonthName, FiscalYear, Quarter, FiscalYear, Quarter,  FiscalYear, Quarte
 # RUN THE QUERY AND GET THE RESULTS
 rs = dbSendQuery(mydb, sql_select)
 df = fetch(rs, n=-1) # GET THE DATA FROM THE QUERY RESULTS
+
+number_of_source_records <- nrow(df)
 
 db_temp <- dbClearResult(rs) # FLUSH THE BUFFER, RESULTS INTO TEMP VAR
 
@@ -266,63 +268,184 @@ converted_data <- data.matrix(df, rownames.force=NA)
 x <- data.matrix(converted_data[,2:5])  # ALL ROWS, COLS 2,3,4,5
 y <- data.matrix(converted_data[,6:10]) # ALL ROWS, COLS 6,7,8,9,10
 
-```
-
-## 1, 2, 3 Month DEA Portfolio Performance Analysis
-
-*Only 100% \index{efficient stocks} efficient stocks identified through DEA analysis are included
-for the constructed portfolio.*
-
-```{r GenerateCRS, echo=FALSE, message=FALSE}
-
-#####################################################
-# CONSTANT RETURNS TO SCALE MODEL
-#####################################################
-
-# SET THE LOOP COUNT AND DATA VARIABLE SIZES
+# SET THE LOOP COUNT AND DATA VARIABLE SIZES FOR DEA MODEL ANALYSIS
 NX <- ncol(x); NY <- ncol(y); ND <- nrow(x)
 xdata <- x[1:ND,]
 dim(xdata) <- c(ND, NX) 
 ydata <- y[1:ND,]
 dim(ydata) <- c(ND, NY)
 
-# SETUP THE MODEL
-results.efficiency <- matrix(rep(-1.0, 1), nrow=ND, ncol=1)
-results.lambda     <- matrix(rep(-1.0, ND), nrow=ND,ncol=ND)
+```
+
+## Multiplier Model Analysis
+
+
+```{r MultiplierModelResultVariables, echo=FALSE, message=FALSE}
+
+mm1.efficiency <- matrix(rep(-1.0, ND), nrow=ND)
+mm1.lambda     <- matrix(rep(-1.0, ND^2), nrow=ND)
+mm1.vweight    <- matrix(rep(-1.0, ND*NX), nrow=ND) 
+mm1.uweight    <- matrix(rep(-1.0, ND*NY), nrow=ND) 
+mm1.xslack     <- matrix(rep(-1.0, ND*NX), nrow=ND) 
+mm1.yslack     <- matrix(rep(-1.0, ND*NY), nrow=ND) 
+
+mm1names <- TRA::DEAnames(NX, NY, ND)
+
+xnames <- c("Beta $v_1$", "Sigma $v_2$", "DtoE $v_3$", "PtoB $v_4$")
+ynames <- c("NetMgn $u_1$", "EPS $u_2$", "ROA $u_3$", "ROE $u_4$", "TM $u_5$")
+
+```
+
+```{r MuliplierModel, eval=TRUE, echo=FALSE, message=FALSE}
 
 for (k in 1:ND) {
 
-  results <- MIPModel()                                              |>
-    add_variable(Vlambda[j], j = 1:ND, type = "continuous", lb = 0) |>
-    add_variable(Vtheta, type = "continuous")                       |>
-    set_objective(Vtheta, "min")                                    |>
-    add_constraint(sum_expr(Vlambda[j] * xdata[j,i], j = 1:ND) 
-                   <= Vtheta * xdata[k,i], i = 1:NX)                |>
-    add_constraint(sum_expr(Vlambda[j] * ydata[j,r], j = 1:ND) 
-                   >= ydata[k,r], r = 1:NY)                         |>
-    solve_model(with_ROI(solver = "glpk")) 
-  
-#  print(c("DMU=",k,solver_status(results)))
-  
-  results.efficiency[k] <-  get_solution(results, Vtheta)       
-  results.lambda[k,] <- t(as.matrix(as.numeric(
-    get_solution(results, Vlambda[j])[,3] )))
-}
+  result <- MIPModel() |>
+  add_variable(vweight[i], i = 1:NX, type = "continuous", lb = 0)   |>
+  add_variable(uweight[r], r = 1:NY, type = "continuous", lb = 0)   |>
+  set_objective(sum_expr(uweight[r] * ydata[k,r], r = 1:NY), "max") |>
+  add_constraint(sum_expr(vweight[i] * xdata[k,i], i = 1:NX) == 1)  |>
+  add_constraint((sum_expr(uweight[r] * ydata[j,r], r = 1:NY)-
+                    sum_expr(vweight[i] * xdata[j,i], i = 1:NX)) 
+                 <= 0, j = 1:ND)
+  result
 
-temp_CRS <- cbind(DMUnames,
-              results.efficiency)
+  result <- solve_model(result, with_ROI(solver = "glpk", 
+                                         verbose = FALSE))
+  mm1.efficiency[k] <- objective_value (result) 
 
-colnames(temp_CRS) <- c("DMU","Efficiency Score")
+  # Get the output weights
+  tempvweight <- get_solution(result, vweight[i])
+  mm1.vweight[k,] <- tempvweight[,3]
 
-temp_CRS_Basic_Materials <- temp_CRS
+  # Get the input weights
+  tempuweight <- get_solution(result, uweight[i])
+  mm1.uweight[k,] <- tempuweight[,3]
+  templambda <- as.matrix(get_row_duals(result))
+  mm1.lambda[k,] <- templambda [-1]
+  # Drops the first dual value since that 
+  #    constraint since is for setting denom=1
+ }
+
+mm1.input_wts  <- cbind(DMUnames,
+                        format(mm1.efficiency, digits=2, nsmall=2),
+                        format(mm1.vweight, digits=2, nsmall=2))
+only_efficient_inputs <- mm1.input_wts[mm1.input_wts[,2] >= 1.0,]
+
+mm1.output_wts <- cbind(DMUnames,
+                        format(mm1.efficiency, digits=2, nsmall=2),
+                        format(mm1.uweight, digits=2, nsmall=2))
+only_efficient_outputs <- mm1.output_wts[mm1.output_wts[,2] >= 1.0,]
+
+mm1.combined <- cbind (DMUnames,
+                       format(mm1.efficiency, digits=2, nsmall=2), 
+                       format(mm1.vweight, digits=2, nsmall=2), 
+                       format(mm1.uweight, digits=2, nsmall=2))
+
+mm1.combined_lambda <- cbind(DMUnames,
+                       format(mm1.efficiency, digits=2, nsmall=2), 
+                       format(mm1.lambda, digits=2, nsmall=2))
 
 # SLICE OFF ONLY THE STOCKS THAT HAVE AN EFFICIENCY OF ONE (1)
-only_efficient_stocks_CRS <- temp_CRS[temp_CRS[,2] >= 1.0,]
+only_efficient_stocks_MM <- mm1.combined[mm1.combined[,2] >= 1.0,]
 
-db_temp <- dbClearResult(rs) # FLUSH THE BUFFER, RESULTS INTO TEMP VAR
-#db_temp <- dbDisconnect(mydb) # CLOSE THE DATABASE CONNECTION, RESULTS IN TEMP
+colnames(only_efficient_stocks_MM) <- c("DMU","Score", "X1", "X2", "X3", "X4",
+                                        "Y1", "Y2", "Y3", "Y4", "Y5")
+
+efficient_MM <- only_efficient_stocks_MM[,3:11]
+
+efficient_MM[0] <- format(efficient_MM[0], digits=4)
+efficient_MM[1] <- format(efficient_MM[1], digits=4)
+efficient_MM[2] <- format(efficient_MM[2], digits=4)
+efficient_MM[3] <- format(efficient_MM[3], digits=4)
+efficient_MM[4] <- format(efficient_MM[4], digits=4)
+efficient_MM[5] <- format(efficient_MM[5], digits=4)
+efficient_MM[6] <- format(efficient_MM[6], digits=4)
+efficient_MM[7] <- format(efficient_MM[7], digits=4)
+
+display_efficient_MM <- cbind(only_efficient_stocks_MM[,1], efficient_MM)
+
+number_of_efficient_stocks <- nrow(only_efficient_stocks_MM)
+
+# TOO MANY LAMBDA VALUES TO VIEW IN A TYPICAL STOCK SECTOR DATA SET
+#only_efficient_stocks_MM_labmda <- mm1.combined_lambda[mm1.combined_lambda[,2] >= 1.0,]
+
+df_MM_io_data <- df[df$DMU %in% only_efficient_stocks_MM,]
 
 ```
+
+SECTOR <- 'Utilities'
+FiscalYear <- '2017'
+Quarter <- 'Q3'
+MonthName <- 'September'
+
+StartDate <- '2017-09-01'
+EndDate <- '2017-09-29'
+
+periodOneDate <- '2017-10-31'
+periodTwoDate <- '2017-11-30'
+periodThreeDate <- '2017-12-29'
+
+
+`r SECTOR` Sector Data Size: `r number_of_source_records`
+
+100% Efficient Stocks (DEA): `r number_of_efficient_stocks`
+
+Stocks Selected Percentage: `r (number_of_efficient_stocks/number_of_source_records)*100`%
+
+
+### Efficient Stocks for Portfolio
+
+**Stock portfolio generated from DEA analysis:**
+
+```{r ShowEfficientStocks, echo=FALSE, message=FALSE}
+
+# SHOW EFFICIENT STOCKS RETURNED FROM THE DEA MODEL
+kbl (only_efficient_stocks_MM[,1:2], booktabs=T, escape=F, digits=2, longtable=T,
+     col.names=c("DMU", "Efficiency Score"),
+     caption =c("Multiplier Model Stock Portfolio Results")) |>
+  kable_styling (latex_options = c("HOLD_position"))
+
+```
+
+### Input/Output Weight Analysis
+
+```{r MultiplierModelIOs, echo=FALSE, message=FALSE}
+
+kbl (display_efficient_MM, booktabs=T, escape=F, digits=2, longtable=F,
+     col.names=c("DMU", xnames, ynames),
+     caption =c("Multiplier Model Results for Perfectly Efficient Stocks"))  |>
+  add_header_above(c(" " = 1, "Inputs (x)" = 4, "Outputs (y)" = 5))  |>
+  kable_styling (latex_options = c("HOLD_position", "scale_down"))
+
+#kbl (only_efficient_stocks_MM_labmda, booktabs=T, escape=F, digits=2, longtable=F,
+#      col.names=c("DMU", "$\\theta^{CRS}$", mm1names$LambdanamesbyletterLX),
+#      caption =c("Multiplier Model Results"))  |>
+#   kable_styling (latex_options = c("hold_position", "scale_down")) |>
+#   landscape()
+
+```
+
+### Input and Output Data
+
+*Only 100% \index{efficient stocks} efficient stocks identified through DEA analysis are included
+for the review of source data.*
+
+```{r MultiplierModelData, echo=FALSE, message=FALSE}
+
+kbl (df_MM_io_data, booktabs=T, escape=F, digits=2, longtable=F,
+     caption =c("MM Input and Output Data Used for Analysis"))  |>
+  add_header_above(c(" " = 2,  "Inputs (x)" = 4, "Outputs (y)" = 5, "Prices" = 4, "Sector" = 1))  |>
+  kable_styling (latex_options = c("HOLD_position", "scale_down"))
+
+```
+
+\newpage
+
+## 1, 2, 3 Month DEA Portfolio Performance Analysis
+
+*Only 100% \index{efficient stocks} efficient stocks identified through DEA analysis are included
+for the constructed portfolio.*
 
 ```{r CalculateReturnRates, echo=FALSE, message=FALSE}
 
@@ -362,7 +485,18 @@ colnames(returnResults) <- c("DMU",
 
 # MERGE THE EFFICIENT DMU DATAFRAME WITH THE RATE OF RETURN RESULT DATAFRAME
 # NOTE: INNER JOIN BY DMU NAME
-df_all = merge(x = only_efficient_stocks_CRS, y = returnResults, by = "DMU")
+
+# GET THE DMU AND EFFICIENCY SCORE
+temp_MM <- only_efficient_stocks_MM[,1:2]
+
+# NAME THE TEMP COLUMNS
+colnames(temp_MM) <- c("DMU","Score")
+
+# SLICE OFF ONLY THE STOCKS THAT HAVE AN EFFICIENCY OF ONE (1)
+only_efficient_stocks_RETURNS <- temp_MM[temp_MM[,2] >= 1.0,]
+
+# MERGE: INNER JOIN THE DATAFRAMES FOR BACKTESTING VALUES AND EFFICIENT DMUs
+df_all = merge(x = only_efficient_stocks_RETURNS, y = returnResults, by = "DMU")
 
 # CREATE THE CAPTION FOR THE REPORT USING THE SECTOR NAME SELECTED FOR STUDY
 report_caption <- sprintf('%s Sector Portfolio Detail', toupper(SECTOR))
@@ -479,175 +613,7 @@ knitr::include_graphics("line_chart_returns.png")
 
 \newpage
 
-## Data Source Examination
-
-```{r ExploreData, echo=FALSE, message=FALSE}
-
-# SET THE HEAD AND TAIL DIVIDERS
-xdivider <- data.frame(DMU=c('---'), Beta=c('---'), Sigma=c('---'), DToE=c('---'), PToB=c('---'))
-ydivider <- data.frame(DMU=c('---'), NetMrgn=c('---'), EPS=c('---'), ROA=c('---'), ROE=c('---'), TTMreturn=c('---'))
-
-xx <- head(cbind(df['DMU'], x)) # SELECT THE FIRST FEW LINES FROM THE DATA
-xxt <- tail(cbind(df['DMU'], x))
-xxd <- rbind(xx,xdivider,xxt)
-
-yy <- head(cbind(df['DMU'], y))
-yyt <- tail(cbind(df['DMU'], y))
-yyd <- rbind(yy,ydivider,yyt)
-
-# SHOW THE INPUT VARIABLE EXAMPLES
-kbl(xxd, booktabs=T, digits=3, escape=T, row.names=F, longtable=F,
-    col.names=c("DMU","Beta", "Sigma", "Debt To Equity","Price to Book"),
-    caption= 'Data Source Extract Example - INPUTS ($x$)')  |>
-  kable_styling(latex_options = c("HOLD_position", "scale_down"))
-
-# SHOW THE OUTPUT VARIABLE EXAMPLES
-kbl(yyd, booktabs=T, digits=3, escape=T, row.names=F, longtable=F,
-    col.names=c("DMU","Net Margin","EPS", "Return on Assets", "Return on Equity",
-                "Rate of Return"),
-    caption= 'Data Source Extract Example - OUTPUTS ($y$)')  |>
-  kable_styling(latex_options = c("HOLD_position", "scale_down"))
-
-```
-
-\newpage
-
-## Multiplier Model Analysis
-
-```{r MultiplierModelResultVariables, echo=FALSE, message=FALSE}
-
-mm1.efficiency <- matrix(rep(-1.0, ND), nrow=ND)
-mm1.lambda     <- matrix(rep(-1.0, ND^2), nrow=ND)
-mm1.vweight    <- matrix(rep(-1.0, ND*NX), nrow=ND) 
-mm1.uweight    <- matrix(rep(-1.0, ND*NY), nrow=ND) 
-mm1.xslack     <- matrix(rep(-1.0, ND*NX), nrow=ND) 
-mm1.yslack     <- matrix(rep(-1.0, ND*NY), nrow=ND) 
-
-mm1names <- TRA::DEAnames(NX, NY, ND)
-
-xnames <- c("Beta $v_1$", "Sigma $v_2$", "DtoE $v_3$", "PtoB $v_4$")
-ynames <- c("NetMgn $u_1$", "EPS $u_2$", "ROA $u_3$", "ROE $u_4$", "TM $u_5$")
-
-```
-
-```{r MuliplierModel, eval=TRUE, echo=FALSE, message=FALSE}
-
-for (k in 1:ND) {
-
-  result <- MIPModel() |>
-  add_variable(vweight[i], i = 1:NX, type = "continuous", lb = 0)   |>
-  add_variable(uweight[r], r = 1:NY, type = "continuous", lb = 0)   |>
-  set_objective(sum_expr(uweight[r] * ydata[k,r], r = 1:NY), "max") |>
-  add_constraint(sum_expr(vweight[i] * xdata[k,i], i = 1:NX) == 1)  |>
-  add_constraint((sum_expr(uweight[r] * ydata[j,r], r = 1:NY)-
-                    sum_expr(vweight[i] * xdata[j,i], i = 1:NX)) 
-                 <= 0, j = 1:ND)
-  result
-
-  result <- solve_model(result, with_ROI(solver = "glpk", 
-                                         verbose = FALSE))
-  mm1.efficiency[k] <- objective_value (result) 
-
-  # Get the output weights
-  tempvweight <- get_solution(result, vweight[i])
-  mm1.vweight[k,] <- tempvweight[,3]
-
-  # Get the input weights
-  tempuweight <- get_solution(result, uweight[i])
-  mm1.uweight[k,] <- tempuweight[,3]
-  templambda <- as.matrix(get_row_duals(result))
-  mm1.lambda[k,] <- templambda [-1]
-  # Drops the first dual value since that 
-  #    constraint since is for setting denom=1
- }
-
-mm1.input_wts  <- cbind(DMUnames,
-                        format(mm1.efficiency, digits=2, nsmall=2),
-                        format(mm1.vweight, digits=2, nsmall=2))
-only_efficient_inputs <- mm1.input_wts[mm1.input_wts[,2] >= 1.0,]
-
-mm1.output_wts <- cbind(DMUnames,
-                        format(mm1.efficiency, digits=2, nsmall=2),
-                        format(mm1.uweight, digits=2, nsmall=2))
-only_efficient_outputs <- mm1.output_wts[mm1.output_wts[,2] >= 1.0,]
-
-mm1.combined <- cbind (DMUnames,
-                       format(mm1.efficiency, digits=2, nsmall=2), 
-                       format(mm1.vweight, digits=2, nsmall=2), 
-                       format(mm1.uweight, digits=2, nsmall=2))
-
-mm1.combined_lambda <- cbind(DMUnames,
-                       format(mm1.efficiency, digits=2, nsmall=2), 
-                       format(mm1.lambda, digits=2, nsmall=2))
-
-# SLICE OFF ONLY THE STOCKS THAT HAVE AN EFFICIENCY OF ONE (1)
-only_efficient_stocks_MM <- mm1.combined[mm1.combined[,2] >= 1.0,]
-
-efficient_MM <- only_efficient_stocks_MM[,3:11]
-display_efficient_MM <- cbind(only_efficient_stocks_MM[,1], efficient_MM)
-
-# TOO MANY LAMBDA VALUES TO VIEW IN A TYPICAL STOCK SECTOR DATA SET
-#only_efficient_stocks_MM_labmda <- mm1.combined_lambda[mm1.combined_lambda[,2] >= 1.0,]
-
-```
-
-### Input/Output Weight Analysis
-
-```{r MultiplierModelIOs, echo=FALSE, message=FALSE}
-
-kbl (display_efficient_MM, booktabs=T, escape=F, digits=2, longtable=F,
-     col.names=c("DMU", xnames, ynames),
-     caption =c("Multiplier Model Results for Perfectly Efficient Stocks"))  |>
-  add_header_above(c(" " = 1, "Inputs (x)" = 4, "Outputs (y)" = 5))  |>
-  kable_styling (latex_options = c("HOLD_position", "scale_down"))
-
-# kbl (only_efficient_stocks_MM_labmda, booktabs=T, escape=F, digits=2, longtable=F,
-#      col.names=c("DMU", "$\\theta^{CRS}$", mm1names$LambdanamesbyletterLX),
-#      caption =c("Multiplier Model Results"))  |>
-#   kable_styling (latex_options = c("hold_position", "scale_down")) |>
-#   landscape()
-
-```
-
-### Output Weight Analysis
-
-```{r MultiplierModelOutputs, echo=FALSE, message=FALSE}
-
-kbl (only_efficient_outputs, booktabs=T, escape=F, digits=2, longtable=F,
-     col.names=c("DMU", "$\\theta^{CRS}$", ynames),
-     caption =c("MM Output Weights for Perfectly Efficient Stocks"))  |>
-  add_header_above(c(" " = 1, "Score" = 1, "Outputs (y)" = 5))  |>
-  kable_styling (latex_options = c("HOLD_position", "scale_down"))
-
-```
-
-### Input Weight Analysis
-
-```{r MultiplierModelInputs, echo=FALSE, message=FALSE}
-kbl (only_efficient_inputs, booktabs=T, escape=F, digits=2, longtable=F,
-     col.names=c("DMU", "$\\theta^{CRS}$", xnames),
-     caption =c("MM Input Weights for Perfectly Efficient Stocks"))  |>
-  add_header_above(c(" " = 1, "Score" = 1, "Inputs (x)" = 4))  |>
-  kable_styling (latex_options = c("HOLD_position", "scale_down"))
-
-```
-
-\newpage
-
 # Appendix
-
-## Constant Returns to Scale Mathematical Model
-
-$$
-\begin{split}
-\begin{aligned}
-    \text{min  }   & \theta \\
-    \text{s.t.:  } & \sum_{j=1}^{N^D} x_{i,j}\lambda_j - \theta x_{i,k} \leq 0 \; \forall \; i\\
-                   & \sum_{j=1}^{N^D} y_{r,j}\lambda_j \geq  y_{r,k} \;  \forall \; r\\
-                   & \lambda_j \geq 0  \; \forall \; j
-  \end{aligned}
- \end{split}
-$$
 
 ## Multiplier Mathematical Model
 
@@ -662,5 +628,70 @@ $$
   \end{aligned}
  \end{split}
 $$
+
+## Source Input Data (X Dataset)
+
+```{r ShowOutputData, echo=FALSE, message=FALSE}
+
+x_out <- cbind(df['DMU'], x)
+
+# SHOW THE INPUT VARIABLES
+kbl(x_out, booktabs=T, digits=3, escape=T, row.names=F, longtable=T,
+    col.names=c("DMU","Beta", "Sigma", "Debt To Equity","Price to Book"),
+    caption= 'Data Source Extract Example - INPUTS ($x$)')  |>
+  kable_styling(latex_options = c("HOLD_position"))
+
+```
+
+## Source Output Data (Y Dataset)
+
+```{r ShowInputData, echo=FALSE, message=FALSE}
+
+y_out <- cbind(df['DMU'], y)
+
+# SHOW THE OUTPUT VARIABLES
+kbl(y_out, booktabs=T, digits=3, escape=T, row.names=F, longtable=T,
+    col.names=c("DMU","Net Margin","EPS", "Return on Assets", "Return on Equity",
+                "Rate of Return"),
+    caption= 'Data Source Extract Example - OUTPUTS ($y$)')  |>
+  kable_styling(latex_options = c("HOLD_position"))
+
+```
+
+```{r ShowAllData, echo=FALSE, message=FALSE, eval=FALSE}
+
+xdivider <- data.frame(DMU=c('---'), Beta=c('---'), Sigma=c('---'), DToE=c('---'), PToB=c('---'))
+ydivider <- data.frame(DMU=c('---'), NetMrgn=c('---'), EPS=c('---'), ROA=c('---'), ROE=c('---'), TTMreturn=c('---'))
+
+xx <- head(cbind(df['DMU'], x)) # SELECT THE FIRST FEW LINES FROM THE DATA
+xxt <- tail(cbind(df['DMU'], x))
+xxd <- rbind(xx,xdivider,xxt)
+
+yy <- head(cbind(df['DMU'], y))
+yyt <- tail(cbind(df['DMU'], y))
+yyd <- rbind(yy,ydivider,yyt)
+
+# SHOW ALL OF THE SECTOR DATA USED FOR ANALYSIS
+# THIS OUTPUT TRUNCATES AT THE END OF THE PAGE, LONGTABLE CAUSES ERROR W/SCALE_DOWN
+#kbl(df, booktabs=T, digits=3, escape=T, row.names=F, longtable=F,
+#    col.names=c("DMU","Beta", "Sigma", "Debt To Equity","Price to Book", "Net Margin", "EPS", "ROA", "ROE", "TMret", #"Entry", "Period 1", "Period 2", "Period 3", "Sector"),
+#    caption= 'All Source Data Used for DEA Analysis')  |>
+#  kable_styling(latex_options = c("HOLD_position", "scale_down"))
+
+# SHOW THE HEAD/TAIL INPUT VARIABLE EXAMPLES
+#kbl(xxd, booktabs=T, digits=3, escape=T, row.names=F, longtable=F,
+#    col.names=c("DMU","Beta", "Sigma", "Debt To Equity","Price to Book"),
+#    caption= 'Data Source Extract Example - INPUTS ($x$)')  |>
+#  kable_styling(latex_options = c("HOLD_position", "scale_down"))
+
+# SHOW THE HEAD/TAIL OUTPUT VARIABLE EXAMPLES
+#kbl(yyd, booktabs=T, digits=3, escape=T, row.names=F, longtable=F,
+#    col.names=c("DMU","Net Margin","EPS", "Return on Assets", "Return on Equity",
+#                "Rate of Return"),
+#    caption= 'Data Source Extract Example - OUTPUTS ($y$)')  |>
+#  kable_styling(latex_options = c("HOLD_position", "scale_down"))
+
+```
+
 
 \printindex

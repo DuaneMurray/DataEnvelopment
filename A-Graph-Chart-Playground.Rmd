@@ -57,7 +57,6 @@ library(png)
 library(grid)
 library(RMySQL, quietly=TRUE)
 library (MultiplierDEA, quietly=TRUE)
-#options(digits = 2)
 
 ```
 
@@ -66,7 +65,7 @@ library (MultiplierDEA, quietly=TRUE)
 
 #####################################################################
 # AVAILABLE SECTORS:
-# NAME                    COUNT   SYMBOL  AKA
+# NAME                    SZ      SYMBOL  AKA
 # ----------------------- -----   ------  ---
 # Basic Materials		      304     XLB     
 # Communication Services	357     XTL     Telecommunications
@@ -1720,7 +1719,7 @@ Q4_df_MM_io_data <- df_Q4[df_Q4$DMU %in% Q4_only_efficient_stocks_MM,]
 
 \vspace{12pt}
 
-In the context of each quarter (Q1-Q4) within the Utilities sector, the following data overview provides insights into the size of the data set, the number of identified efficient stocks based on DEA analysis, and the percentage of efficient stocks selected from the initial data set.
+In the context of each quarter (Q1-Q4) within the `r Q1_SECTOR` sector, the following data overview provides insights into the size of the data set, the number of identified efficient stocks based on DEA analysis, and the percentage of efficient stocks selected from the initial data set.
 
 This quarterly analysis provides a nuanced understanding of the efficiency landscape within the `r Q1_SECTOR` sector. The varying efficiency levels emphasize the importance of adaptability in stock selection strategies based on the evolving efficiency dynamics in the market.
 
@@ -1730,7 +1729,7 @@ This quarterly analysis provides a nuanced understanding of the efficiency lands
 
 \vspace{12pt}
 
-**Q1**
+**Q1 (Jan - Mar)**
 
 `r Q1_SECTOR` Sector Data Size: `r Q1_number_of_source_records`
 
@@ -1740,7 +1739,7 @@ Percentage of Data Selected: `r format((Q1_number_of_efficient_stocks/Q1_number_
 
 \vspace{12pt}
 
-**Q2**
+**Q2 (Apr - Jun)**
 
 `r Q2_SECTOR` Sector Data Size: `r Q2_number_of_source_records`
 
@@ -1750,7 +1749,7 @@ Percentage of Data Selected: `r format((Q2_number_of_efficient_stocks/Q2_number_
 
 \vspace{12pt}
 
-**Q3**
+**Q3 (Jul - Sep)**
 
 `r Q3_SECTOR` Sector Data Size: `r Q3_number_of_source_records`
 
@@ -1760,7 +1759,7 @@ Percentage of Data Selected: `r format((Q3_number_of_efficient_stocks/Q3_number_
 
 \vspace{12pt}
 
-**Q4**
+**Q4 (Oct - Dec)**
 
 `r Q4_SECTOR` Sector Data Size: `r Q4_number_of_source_records`
 

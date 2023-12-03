@@ -28,7 +28,7 @@ library(tinytex)
 library(bookdown)
 library(rmarkdown)
 library(kableExtra)
-rmarkdown::render("A-Graph-Chart-Playground.Rmd", "pdf_book")
+rmarkdown::render("ETM-506-DEA-Financial-Analysis-Murray.Rmd", "pdf_book")
 
 ```
 

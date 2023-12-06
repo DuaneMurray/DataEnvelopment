@@ -1,5 +1,5 @@
 ---
-title: "| Stock Portfolio Creation using Data Envelopment Analysis (DEA) \n| \n| ETM-506, Fall 2023\n| \n| Portland State University\n|"
+title: "| Stock Portfolio Creation using Data Envelopment Analysis (DEA) \n| \n| ETM-506, Fall 2023\n| \n| Portland State University\n"
 author: "Author: Duane A. Murray"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 header-includes:
@@ -2972,6 +2972,15 @@ Holding Period 1 End Date: `r Q4_periodOneDate`
 Holding Period 2 End Date: `r Q4_periodTwoDate`
 
 Holding Period 3 End Date: `r Q4_periodThreeDate`
+
+
+## E. Source Code and Other Files
+
+The source code used to create this work is available on the author's GitHub
+as a public repository at: 
+
+
+https://github.com/DuaneMurray/DataEnvelopment
 
 
 

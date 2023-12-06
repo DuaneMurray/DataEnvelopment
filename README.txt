@@ -1,3 +1,10 @@
+
+This code extends prior works using Data Envelopment Analysis (DEA) as a tool to help evaluate groups of
+stocks to find which may be the most efficient in regard to how they perform in the market. DEA uses linear programming (LP), and can use large numbers of decision making units (DMUs) to perform a comparative analysis of units in a data set by computing the relative efficiency for each DMU. Using this analysis, a DMU with a value of one (1) is considered 100% efficient in relation to the other DMUs within the set. This code builds stock portfolios based on quarterly report financial ratios and technical indicators based on momentum and volotility of each DMU stock price movements.
+
+The RMD file can be customized to work with different market sectors, fiscal years, and quarters by changing the global variable parameters set within the document. The stock data for the creation of the MySQL database for this work is sourced from Financial Modeling Prep (FMP).
+
+
 DATA SOURCE: FINANCIAL MODELING PREP (https://site.financialmodelingprep.com/)
 REST API DOCS: https://site.financialmodelingprep.com/developer/docs
 

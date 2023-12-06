@@ -2979,7 +2979,6 @@ Holding Period 3 End Date: `r Q4_periodThreeDate`
 The source code used to create this work is available on the author's GitHub
 as a public repository at: 
 
-
 https://github.com/DuaneMurray/DataEnvelopment
 
 

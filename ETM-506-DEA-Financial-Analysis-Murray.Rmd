@@ -162,9 +162,10 @@ mydb = dbConnect(MySQL(),
                  dbname='stockdata', 
                  host='127.0.0.1')
 
-########################################################################
+#############################################################################
 # Q1 - QUERY ALL STOCK DEA INPUTS AND OUTPUTS, AND 1,3,6 MONTH FUTURE PRICES
-########################################################################
+# QUERY COULD BE OPTIMIZED - THIS IS JUST AN INITIAL MODEL CONCEPT
+#############################################################################
 Q1_sql_select <- sprintf("
 SELECT 
 	b.symbol AS 'DMU', 
@@ -340,9 +341,10 @@ colnames(Q1_sp500_allPeriods) <- c("Entry", "SP500periodOne", "SP500periodTwo", 
 
 
 
-########################################################################
+#############################################################################
 # Q2 - QUERY ALL STOCK DEA INPUTS AND OUTPUTS, AND 1,3,6 MONTH FUTURE PRICES
-########################################################################
+# QUERY COULD BE OPTIMIZED - THIS IS JUST AN INITIAL MODEL CONCEPT
+#############################################################################
 Q2_sql_select <- sprintf("
 SELECT 
 	b.symbol AS 'DMU', 
@@ -518,9 +520,10 @@ colnames(Q2_sp500_allPeriods) <- c("Entry", "SP500periodOne", "SP500periodTwo", 
 
 
 
-########################################################################
+#############################################################################
 # Q3 - QUERY ALL STOCK DEA INPUTS AND OUTPUTS, AND 1,3,6 MONTH FUTURE PRICES
-########################################################################
+# QUERY COULD BE OPTIMIZED - THIS IS JUST AN INITIAL MODEL CONCEPT
+#############################################################################
 Q3_sql_select <- sprintf("
 SELECT 
 	b.symbol AS 'DMU', 
@@ -687,9 +690,10 @@ Q3_sp500_allPeriods <- cbind(Q3_df_sp500_periodStart, Q3_df_sp500_periodOne, Q3_
 colnames(Q3_sp500_allPeriods) <- c("Entry", "SP500periodOne", "SP500periodTwo", "SP500periodThree")
 
 
-########################################################################
+#############################################################################
 # Q4 - QUERY ALL STOCK DEA INPUTS AND OUTPUTS, AND 1,3,6 MONTH FUTURE PRICES
-########################################################################
+# QUERY COULD BE OPTIMIZED - THIS IS JUST AN INITIAL MODEL CONCEPT
+#############################################################################
 Q4_sql_select <- sprintf("
 SELECT 
 	b.symbol AS 'DMU', 

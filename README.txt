@@ -7,11 +7,11 @@ REST API DOCS: https://site.financialmodelingprep.com/developer/docs
 ALL NON-FINANCIAL FIRMS LISTED ON THE NYSE, AMEX, and NASDAQ:
 Exclude:
 	A. Financial Firms - uses debt as an asset/receivable instead of a liability
-	C. Closed-end funds
-	D. Real Estate Investment Trusts (REIT)
-	E. American Depository Receipts (ADRs)
-	F. Warrants (W or -W at end of symbol)
-	G. Firms with Negative Book-to-Market Values
+	B. Closed-end funds
+	C. Real Estate Investment Trusts (REIT)
+	D. American Depository Receipts (ADRs)
+	E. Warrants (W or -W at end of symbol)
+	F. Firms with Negative Book-to-Market Values
 
 
 REST API END POINTS (JSON):
@@ -94,17 +94,16 @@ Utilities
 
 INITIAL MODELING CONCEPTS:
 
-Market Equity (size) = stock price * shares outstanding
-
 Inputs:
-Average Equity
-Average asset
-Sales costs
+
 
 Outputs:
-Revenue
-Operating profit
-Net income
+
+
+
+FUNDAMENTAL VARIABLES AND RATIOS
+
+Market Equity (size) = stock price * shares outstanding
 
 BOS = Momentum = Buy Volume / Sell Volume
 
@@ -119,10 +118,6 @@ V = volume;
 Buying = V*(C-L)/(H-L);
 Selling = V*(H-C)/(H-L);
 BOSratio = Buying / Selling
-
-
-Price to Earnings:
-
 
 Price-to-Book Ratio:
 
@@ -162,43 +157,3 @@ SIGMA (sd):
 The sigma value is the standard deviation (sd) in price over a given time period. In this case,
 the close price of a stock is used for the calculation over the same holding period used for
 the beta calcuation.
-
-DEA MODEL INPUTS:
-
-SELECT DISTINCT p.symbol, b.beta, b.sigma, f.debtToEquity, f.pToBv
-FROM price_quotes p, financials f, beta_sigma b
-WHERE p.Symbol = b.Symbol AND p.Symbol = f.Symbol
-AND p.date > '2014-12-31' AND p.date < '2016-01-01'
-AND f.fiscalYear=2015;
-
-
-SQL
-DEA MODEL OUTPUTS:
-
-SELECT DISTINCT f.symbol as 'DMU', f.netIncomeToRevenue AS 'O-NetMargin', 
-f.incomeNetPerWabso AS 'O-EPS', f.returnOnAssets AS 'O-ReturnOnAssets', 
-f.returnOnEquity as 'O-ReturnOnEquity', b.rate_of_return as 'O-1-YR-RateOfReturn'
-FROM financials f, beta_sigma b
-WHERE (f.symbol = b.symbol) AND f.fiscalYear=2015;
-
-BOTH INPUTS AND OUTPUTS IN ONE FILE:
-
-SELECT DISTINCT p.symbol AS 'DMU',
-b.beta AS 'Beta', b.sigma AS 'Sigma', f.debtToEquity AS 'DToE', 
-f.pToBv AS 'PToB', f.netIncomeToRevenue AS 'NetMrgn', 
-f.incomeNetPerWabso AS 'EPS', f.returnOnAssets AS 'ROA', 
-f.returnOnEquity as 'ROE', b.rate_of_return as 'TTMreturn',
-b.investment_entry_price AS 'entryPrice', b.one_year_price AS 'oneYRprice', b.three_year_price AS 'threeYRprice',
-b.five_year_price AS 'fiveYRprice', Sector as 'Sector'
-FROM price_quotes p, financials f, beta_sigma b, securities s
-WHERE p.Symbol = b.Symbol AND p.Symbol = f.Symbol AND p.symbol = s.Symbol
-AND p.date > '2014-12-31' AND p.date < '2016-01-01'
-AND f.fiscalYear='2015'
-AND b.one_year_price IS NOT NULL
-AND b.three_year_price IS NOT NULL
-AND b.five_year_price IS NOT NULL
-AND f.returnOnEquity IS NOT NULL
-AND f.debtToEquity != 0
-AND s.Sector = 'Technology';
-
-
